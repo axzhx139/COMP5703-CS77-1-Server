@@ -32,8 +32,18 @@ public class RecipeController {
     }
 
     @GetMapping("/expire/{id}")
-    public List<Recipe> getRecipeByIdAndExpire(@PathVariable("id") int id){return recipeService.getRecipeByIdAndExpire(id);}
+    public List<Recipe> getRecipeByIdAndExpire(@PathVariable("id") int id) {
+        logger.info("getRecipeByIdAndExpire<<<(id: int): " + id);
+        List<Recipe> res = recipeService.getRecipeByIdAndExpire(id);
+        logger.info("getRecipeByIdAndExpire>>>" + logUtils.printListAsLog(res));
+        return res;
+    }
 
     @GetMapping("/random")
-    public List<Recipe> getRandomRecipe(){return recipeService.getRandomRecipe();}
+    public List<Recipe> getRandomRecipe() {
+        logger.info("getRandomRecipe<<<[Void]");
+        List<Recipe> res = recipeService.getRandomRecipe();
+        logger.info("getRandomRecipe>>>" + logUtils.printListAsLog(res));
+        return res;
+    }
 }

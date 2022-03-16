@@ -27,6 +27,12 @@ public class LogUtils<E> {
 
     }
 
+    public String printObjAsLog(E obj) {
+
+        return obj.toString();
+
+    }
+
 
 
 }

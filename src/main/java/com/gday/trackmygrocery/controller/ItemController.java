@@ -73,7 +73,7 @@ public class ItemController {
     public int deleteItemById(@PathVariable("id") int id) {
         logger.info("deleteItemById<<<(id: int): " + id);
         int res = itemService.deleteItemById(id);
-        logger.info("deleteItemById>>>" + id);
+        logger.info("deleteItemById>>>" + res);
         return res;
     }
 
@@ -136,7 +136,7 @@ public class ItemController {
     @PostMapping("/update/picture")
     @ApiOperation("Update item's picture using item id")
     public int updatePictureById(@RequestParam("id") int id, @RequestParam("picture") MultipartFile file) {
-        logger.info("updatePictureById<<<(id: int): " + id + "(file: MultipartFile): " + logUtils.printObjAsLog(file));
+        logger.info("updatePictureById<<<(id: int): " + id + "(picture: MultipartFile): " + logUtils.printObjAsLog(file));
         String originalFilename = file.getOriginalFilename();
         String filename = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
         boolean upload = qiNiuUtils.upload(file, filename);

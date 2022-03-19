@@ -25,4 +25,10 @@ public class User implements Serializable {
     private Date birthday;
 
     private String avatar;
+
+    private String token;
+    
+    private String verification_code;
+
+    private String verification_code_status;
 }

@@ -1,6 +1,5 @@
 package com.gday.trackmygrocery.utils;
 
-import com.gday.trackmygrocery.vo.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -20,8 +19,20 @@ public class EmailUtils {
     @Value("${spring.mail.username}")
     private String sender;
 
+    private volatile static EmailUtils emailUtils;
+    private EmailUtils(){}
+    public static EmailUtils getInstance() {
+        if (emailUtils == null) {
+            synchronized (EmailUtils.class) {
+                if (emailUtils == null) {
+                    emailUtils = new EmailUtils();
+                }
+            }
+        }
+        return emailUtils;
+    }
 
-    public void sendMail(Mail mail) {
+    public void sendMail(MailUtils mail) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -42,7 +53,7 @@ public class EmailUtils {
      *
      * @param mail
      */
-    public void sendMailHtml(Mail mail) {
+    public void sendMailHtml(MailUtils mail) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -62,7 +73,7 @@ public class EmailUtils {
      *
      * @param mail
      */
-    public void sendMailAttachment(Mail mail) {
+    public void sendMailAttachment(MailUtils mail) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -82,7 +93,7 @@ public class EmailUtils {
     }
 
 
-    public void sendMailInline(Mail mail) {
+    public void sendMailInline(MailUtils mail) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -105,7 +116,7 @@ public class EmailUtils {
      *
      * @param mailBean
      */
-    public void sendMailTemplate(Mail mailBean) {
+    public void sendMailTemplate(MailUtils mailBean) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -118,5 +129,6 @@ public class EmailUtils {
             e.printStackTrace();
         }
     }
+
 
 }

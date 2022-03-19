@@ -60,6 +60,16 @@ public class UserController {
         return res;
     }
 
+    @PostMapping("/register/sendVerifyCode")
+    @ApiOperation("Insert new User except avatar")
+    public int sendVerifyCode(@RequestBody User user) {
+        // 0:邮箱存在, -1:数据库插入失败, -2:邮件发送异常
+        logger.info("sendVerifyCode<<<(email: String): " + user);
+        int res = userService.sendVerifyCode(user.getEmail());
+        logger.info("sendVerifyCode>>>" + res);
+        return res;
+    }
+
     @PostMapping("/login/normal")
     @ApiOperation("Normal Login using email and pwd")
     public int logIn(@RequestBody LoginParam loginParam) {

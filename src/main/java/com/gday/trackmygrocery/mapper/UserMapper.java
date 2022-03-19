@@ -19,6 +19,9 @@ public interface UserMapper {
      @Select("select * from mg_user where email = #{email}")
      User selectByEmail(String email);
 
+     @Select("select count(*) from mg_user where email = #{email}")
+     int checkEmailExist(String email);
+
      @Insert("insert into mg_user(name,email,pwd,gender) values(#{name},#{email},#{pwd},#{gender})")
      @Options(useGeneratedKeys=true, keyProperty="uId", keyColumn="u_id")
      void insertBean(User user);
@@ -53,4 +56,14 @@ public interface UserMapper {
 
      @Select("select avatar from mg_user where u_id = #{id}")
      String selectAvatarById(int id);
+
+     @Insert("insert into mg_user(email,verification_code,verification_code_status) values(#{email},#{code},0)")
+     int insertInitUser(String email, String code);
+
+     @Select("select count(*) from mg_user where email = #{email} and verification_code_status = 0")
+     int checkEmailExistWithoutVerify(String email);
+
+     @Update("update mg_user SET verification_code=#{code} where email = #{email}")
+     int insertCodeOnly(String email, String code);
+
 }

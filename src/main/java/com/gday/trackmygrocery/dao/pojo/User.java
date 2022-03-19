@@ -30,5 +30,7 @@ public class User implements Serializable {
     
     private String verification_code;
 
-    private String verification_code_status;
+    private int verification_code_status;// 0:未验证, 1:已验证
+
+    private String uuid;
 }

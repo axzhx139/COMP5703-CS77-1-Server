@@ -6,6 +6,8 @@ import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.mapper.ItemMapper;
 import com.gday.trackmygrocery.mapper.UserMapper;
 import com.gday.trackmygrocery.service.UserService;
+import com.gday.trackmygrocery.utils.EmailUtils;
+import com.gday.trackmygrocery.utils.MailUtils;
 import com.gday.trackmygrocery.vo.Profile;
 import com.gday.trackmygrocery.vo.params.LoginParam;
 import com.gday.trackmygrocery.vo.params.ProfileParam;
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private EmailUtils emailUtils;
 
     @Autowired
     private ItemMapper itemMapper;
@@ -141,6 +146,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getAvatar(int id) {
         return userMapper.selectAvatarById(id);
+    }
+
+    @Override
+    public int sendVerifyCode(String email) {
+        if (userMapper.checkEmailExist(email) == 0) {
+            //邮箱不存在或未激活
+            String code = MailUtils.generateVerificationCode();
+            int intRes = userMapper.insertInitUser(email, code);
+            if (intRes == 1) {
+                MailUtils mail = MailUtils.getVerificationMail(email, code);
+                return emailUtils.sendMailHtml(mail);
+            } else {
+                //数据库插入失败
+                return -1;
+            }
+        } else {
+            if (userMapper.checkEmailExistWithoutVerify(email) == 1) {
+                String code = MailUtils.generateVerificationCode();
+                int intRes = userMapper.insertCodeOnly(email, code);
+                if (intRes == 1) {
+                    MailUtils mail = MailUtils.getVerificationMail(email, code);
+                    return emailUtils.sendMailHtml(mail);
+                } else {
+                    //数据库插入失败
+                    return -1;
+                }
+            }
+            return 0;
+        }
     }
 
 }

@@ -12,6 +12,8 @@ import com.gday.trackmygrocery.vo.Profile;
 import com.gday.trackmygrocery.vo.params.LoginParam;
 import com.gday.trackmygrocery.vo.params.ProfileParam;
 import com.gday.trackmygrocery.vo.params.ResetPwdParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ItemMapper itemMapper;
+
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public User getUserById(int id) {
@@ -177,4 +181,32 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public int verifyUser(User user) {
+        if (userMapper.checkEmailExist(user.getEmail()) == 1) {
+            //用户存在
+            if (userMapper.checkVerificationCodeStatus(user.getEmail()) == 0) {
+                //未验证
+                if (userMapper.getVerificationCode(user.getEmail()) == user.getVerification_code()) {
+                    //验证码正确
+                    if (userMapper.verifyAndInsertUser(user) == 1) {
+                        return userMapper.getUserID(user.getEmail());
+                    } else {
+                        //插入过程出现错误
+                        logger.error("verifyUser---用户验证时数据库插入错误，用户为" + user.getEmail());
+                        return -4;
+                    }
+                } else {
+                    //验证码错误
+                    return -3;
+                }
+            } else {
+                //已验证
+                return -2;
+            }
+        } else {
+            //用户不存在
+            return -1;
+        }
+    }
 }

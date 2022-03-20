@@ -1,5 +1,7 @@
 package com.gday.trackmygrocery.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -12,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailUtils {
+
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private JavaMailSender mailSender;
@@ -53,7 +57,7 @@ public class EmailUtils {
      *
      * @param mail
      */
-    public void sendMailHtml(MailUtils mail) {
+    public int sendMailHtml(MailUtils mail) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -62,10 +66,12 @@ public class EmailUtils {
             helper.setTo(mail.getTo());
             helper.setSubject(mail.getSubject());
             helper.setText(mail.getText(), true);
-
             mailSender.send(mimeMessage);
+            logger.info("sendMailHtml---邮件发送到" + mail.getTo() + "成功！");
+            return 1;
         } catch (MessagingException e) {
             e.printStackTrace();
+            return -2;
         }
     }
 

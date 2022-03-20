@@ -3,6 +3,8 @@ package com.gday.trackmygrocery.utils;
 import lombok.Data;
 import org.springframework.core.io.FileSystemResource;
 import java.util.List;
+import java.util.Random;
+
 @Data
 public class MailUtils {
 
@@ -24,4 +26,15 @@ public class MailUtils {
         this.subject = "email verification";
         this.text = "<h1>code: " + code + "</h1>";
     }
+
+    public static String generateVerificationCode() {
+        //生成6位验证码
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            sb.append(r.nextInt(9));
+        }
+        return sb.toString();
+    }
+
 }

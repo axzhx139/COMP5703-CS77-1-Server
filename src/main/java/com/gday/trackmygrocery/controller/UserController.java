@@ -51,11 +51,23 @@ public class UserController {
         return res;
     }
 
+    /*
+    用户不存在：-1
+    已验证：-2
+    验证码错误：-3
+    数据插入时错误：-4
+    正确时：用户uid
+     */
     @PostMapping("/register/normal")
     @ApiOperation("Insert new User except avatar")
     public int insertUser(@RequestBody User user) {
         logger.info("insertUser<<<(user: User): " + logUtils.printObjAsLog(user));
-        int res = userService.insertUser(user);
+        int res = userService.verifyUser(user);
+        logger.info("insertUser---" + "用户不存在：-1\n" +
+                "    已验证：-2\n" +
+                "    验证码错误：-3\n" +
+                "    数据插入时错误：-4\n" +
+                "    正确时：用户uid");
         logger.info("insertUser>>>" + res);
         return res;
     }

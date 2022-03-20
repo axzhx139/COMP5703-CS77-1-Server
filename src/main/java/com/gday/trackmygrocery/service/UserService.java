@@ -39,4 +39,6 @@ public interface UserService {
     String getAvatar(int id);
 
     int sendVerifyCode(String email);
+
+    int verifyUser(User user);
 }

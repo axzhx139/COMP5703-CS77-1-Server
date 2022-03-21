@@ -63,7 +63,7 @@ public class UserController {
     public int insertUser(@RequestBody User user) {
         logger.info("insertUser<<<(user: User): " + logUtils.printObjAsLog(user));
         int res = userService.verifyUser(user);
-        logger.info("insertUser---" + "用户不存在：-1\n" +
+        logger.info("insertUser---\n" + "用户不存在：-1\n" +
                 "    已验证：-2\n" +
                 "    验证码错误：-3\n" +
                 "    数据插入时错误：-4\n" +

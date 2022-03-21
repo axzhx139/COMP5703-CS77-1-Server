@@ -75,6 +75,6 @@ public interface UserMapper {
      @Select("select verification_code from mg_user where email = #{email}")
      String getVerificationCode(String email);
 
-     @Select("select uid from mg_user where email = #{email}")
+     @Select("select u_id from mg_user where email = #{email}")
      int getUserID(String email);
 }

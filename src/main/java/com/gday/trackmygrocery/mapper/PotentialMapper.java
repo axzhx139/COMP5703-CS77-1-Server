@@ -31,4 +31,5 @@ public interface PotentialMapper {
 
     @Select("select * from mg_potential where item_id = #{itemId} and u_id = #{uId}")
     Potential selectPotential(Item item);
+
 }

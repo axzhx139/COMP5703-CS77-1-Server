@@ -1,5 +1,6 @@
 package com.gday.trackmygrocery.controller;
 
+import com.gday.trackmygrocery.utils.EncryptUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,6 @@ public class TestController {
     @RequestMapping("/zhangjiaole")
     public String hello() {
         logger.info("hello>>>" + "<h1>不喝牛奶！</h1>");
-        return "<h1>不喝牛奶！</h1>";
+        return "<h1>不喝牛奶！</h1>" + "<h2>" + EncryptUtils.EncryptString("不喝牛奶！") + "</h2>";
     }
 }

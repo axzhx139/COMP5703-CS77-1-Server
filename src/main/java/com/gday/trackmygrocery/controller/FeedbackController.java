@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("feedback")
@@ -22,7 +19,7 @@ public class FeedbackController {
     private FeedbackService feedbackService;
 
 
-    @GetMapping("/storeFeedback")
+    @PostMapping("/storeFeedback")
     @ApiOperation("Get Feedback and store the content to feedback file")
     public String storeFeedback(@RequestBody FeedbackParam feedbackParam){
         logger.info("storeFeedback<<<(feedbackParam: FeedbackParam): " + feedbackParam);

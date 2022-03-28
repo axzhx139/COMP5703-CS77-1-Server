@@ -72,6 +72,7 @@ public class UserController {
         return res;
     }
 
+
     @PostMapping("/register/sendVerifyCode")
     @ApiOperation("Insert new User except avatar")
     public int sendVerifyCode(@RequestBody User user) {
@@ -81,6 +82,38 @@ public class UserController {
         logger.info("sendVerifyCode>>>" + res);
         return res;
     }
+
+    /**
+     * sendChangeCode
+     * 如果不存在，返回0
+     * 邮箱不存在或者 有邮箱但是verifystatus==0. 都返回0
+     * @param user
+     * @return
+     */
+//    @PostMapping("/register/sendChangeCode")
+//    @ApiOperation("Insert new User except avatar") //foget password change code
+//    public int sendChangeCode(@RequestBody User user) {
+//       //equal email not equal return 0
+//        /**
+//         * send verification code by email >store code to database
+//         *
+//         *
+//         */
+//    }
+
+    /**
+     * /register/changePasswordbyVcode，> email,verification_code,pwd
+     *  method name changePasswordbyVcode
+     * @param loginParam
+     * @return
+     * correct return 1 and change pwd and verification_code =null
+     *
+     *
+     * error -1 ~-n
+     */
+
+
+
 
     @PostMapping("/login/normal")
     @ApiOperation("Normal Login using email and pwd")

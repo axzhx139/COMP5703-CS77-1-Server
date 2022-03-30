@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,10 +38,14 @@ public class FeedbackServiceImpl implements FeedbackService {
                     stringBuilder.append(fileName.charAt(i));
                 }
                 int index=Integer.parseInt(String.valueOf(stringBuilder))+1;
-                file=new File(PATH+"user"+feedbackParam.getId()+"/"+dateTimeFormat.format(localDateTime)+" ("+index+").txt");
+                fileName=PATH+"user"+feedbackParam.getId()+"/"+dateTimeFormat.format(localDateTime)+" ("+index+").txt";
+                file=new File(fileName);
+
             }
 
-            printWriter=new PrintWriter(fileName);
+            file.createNewFile();
+
+            printWriter=new PrintWriter(file);
             String res=feedbackParam.getFeedback();
             printWriter.println(res);
             printWriter.close();
@@ -49,6 +54,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 
             e.printStackTrace();
             return "Directory not fount.";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "IO Exception";
         }
     }
 }

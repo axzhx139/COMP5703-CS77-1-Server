@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class FeedbackServiceImpl implements FeedbackService {
     private PrintWriter printWriter;
     private DateTimeFormatter dateTimeFormat= DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
-    private final String PATH="~/mygrocery/Feedback/";
+    private final String PATH="/home/ubuntu/COMP5703/mygrocery/Feedback/";
 
     @Override
     public String storeFeedbackToTxt(FeedbackParam feedbackParam) {

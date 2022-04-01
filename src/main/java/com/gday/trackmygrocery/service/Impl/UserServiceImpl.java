@@ -211,9 +211,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     @Override
     public int sendChageCode(String email) {
-        if (userMapper.checkEmailExist(email) == 1) {
+        if (userMapper.checkEmailExist(email.trim()) == 1) {
             if (userMapper.checkVerificationCodeStatus(email) == 1) {
                 String code = MailUtils.generateVerificationCode();
                 int resetVcodeState = userMapper.resetVerificationCodeStatus(email);

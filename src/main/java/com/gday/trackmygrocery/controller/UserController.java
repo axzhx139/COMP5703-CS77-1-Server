@@ -78,7 +78,7 @@ public class UserController {
     @ApiOperation("Insert new User except avatar")
     public int sendVerifyCode(@RequestBody User user) {
         // 0:邮箱存在, -1:数据库插入失败, -2:邮件发送异常
-        logger.info("sendVerifyCode<<<(email: String): " + user);
+        logger.info("sendVerifyCode<<<(email: String): " + user.getEmail());
         int res = userService.sendVerifyCode(user.getEmail());
         logger.info("sendVerifyCode---\n" + "email不存在：-1\n" +
                 "    寄信失败：-2\n" +
@@ -89,24 +89,13 @@ public class UserController {
         return res;
     }
 
-    /**
-     * sendChangeCode
-     * 如果不存在，返回0
-     * 邮箱不存在或者 有邮箱但是verifystatus==0. 都返回0
-     * @param user
-     * @return
-     */
-
-    /**
-     * send verification code by email >store code to database
-     */
 
     @PostMapping("/register/sendChangeCode")
     @ApiOperation("SendChangeCode") //foget password change code
-    public int sendChangeCode(@PathVariable("email") String email) {
+    public int sendChangeCode(@RequestBody User user) {
         //equal email not equal return 0
-        logger.info("sendChangeCode<<<(email: String): " + email);
-        int res = userService.sendChageCode(email);
+        logger.info("sendChangeCode<<<(email: String): " + user.getEmail());
+        int res = userService.sendChageCode(user.getEmail());
         logger.info("sendChangeCode---\n" + "email不存在：-1\n" +
                 "    寄信失败：-2\n" +
                 "    更新资料库失败：-3\n" +
@@ -115,16 +104,6 @@ public class UserController {
         return res;
     }
 
-    /**
-     * /register/changePasswordbyVcode，> email,verification_code,pwd
-     * method name changePasswordbyVcode
-     *
-     * @param changeCodeParam
-     * @return correct return 1 and change pwd and verification_code =null
-     * <p>
-     * <p>
-     * error -1 ~-n
-     */
 
     @PostMapping("register/changePasswordbyVcode")
     @ApiOperation("Change password")

@@ -112,7 +112,9 @@ public class RecipeServiceImpl implements RecipeService {
         for(Item item : items){
                 sb.append(item.getName()).append(",");
         }
-        sb.deleteCharAt(sb.length() - 1);
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
         return sb.toString();
     }
 

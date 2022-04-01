@@ -76,6 +76,17 @@ public interface UserMapper {
      @Select("select verification_code from mg_user where email = #{email}")
      String getVerificationCode(String email);
 
-     @Select("select u_id from mg_user where email = #{email}")
+     @Select("select u_id from mg_user where email= #{email}")
      int getUserID(String email);
+
+     @Update("update mg_user SET verification_code_status= 0 where email = #{email}")
+     int resetVerificationCodeStatus(String email);
+
+     @Update("update mg_user SET verification_code= #{verificationCode} where email = #{email}")
+     int setVerificationCode(String email,String verificationCode);
+
+     @Update("update mg_user SET pwd= #{pwd} where email=#{email}")
+     int changePassword(String email,String pwd);
+
+
 }

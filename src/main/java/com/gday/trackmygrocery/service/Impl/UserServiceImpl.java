@@ -9,6 +9,7 @@ import com.gday.trackmygrocery.service.UserService;
 import com.gday.trackmygrocery.utils.EmailUtils;
 import com.gday.trackmygrocery.utils.MailUtils;
 import com.gday.trackmygrocery.vo.Profile;
+import com.gday.trackmygrocery.vo.params.ChangeCodeParam;
 import com.gday.trackmygrocery.vo.params.LoginParam;
 import com.gday.trackmygrocery.vo.params.ProfileParam;
 import com.gday.trackmygrocery.vo.params.ResetPwdParam;
@@ -42,10 +43,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int insertUser(User user) {
-        try{
+        try {
             userMapper.insertBean(user);
             return user.getUId();
-        }catch(Exception e){
+        } catch (Exception e) {
             return -1;
         }
     }
@@ -60,22 +61,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public int logIn(LoginParam loginParam) {
         User user = userMapper.selectByEmail(loginParam.getEmail());
-        if(user == null){
+        if (user == null) {
             return -1;
         }
-        if(user.getPwd()!=null && user.getPwd().equals(loginParam.getPwd())){
+        if (user.getPwd() != null && user.getPwd().equals(loginParam.getPwd())) {
             return user.getUId();
-        }else{
+        } else {
             return -1;
         }
     }
 
     @Override
     public int insertSpecialUser(SpecialUser specialUser) {
-        try{
+        try {
             userMapper.insertSpecialUser(specialUser);
             return specialUser.getUId();
-        }catch(Exception e){
+        } catch (Exception e) {
             return -1;
         }
     }
@@ -85,7 +86,7 @@ public class UserServiceImpl implements UserService {
         try {
             SpecialUser specialUser = userMapper.selectByUUID(uuid);
             return specialUser.getUId();
-        }catch(Exception e) {
+        } catch (Exception e) {
             return -1;
         }
     }
@@ -93,7 +94,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int resetPwdById(ResetPwdParam pwdParam) {
         String pwd = userMapper.selectPwdById(pwdParam.getId());
-        if(!pwd.equals(pwdParam.getPrePwd())){
+        if (!pwd.equals(pwdParam.getPrePwd())) {
             return -1;
         }
         userMapper.updatePwd(pwdParam);
@@ -121,12 +122,12 @@ public class UserServiceImpl implements UserService {
         int instockCount = 0;
         int consumeCount = 0;
         int expireCount = 0;
-        for(Item item : items){
-            if(item.getStatus().equals("instock")){
+        for (Item item : items) {
+            if (item.getStatus().equals("instock")) {
                 instockCount++;
-            }else if(item.getStatus().equals("consume")){
+            } else if (item.getStatus().equals("consume")) {
                 consumeCount++;
-            }else{
+            } else {
                 expireCount++;
             }
         }
@@ -206,6 +207,57 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             //用户不存在
+            return -1;
+        }
+    }
+
+    @Override
+    public int sendChageCode(String email) {
+        if (userMapper.checkEmailExist(email) == 1) {
+            if (userMapper.checkVerificationCodeStatus(email) == 1) {
+                String code = MailUtils.generateVerificationCode();
+                int resetVcodeState = userMapper.resetVerificationCodeStatus(email);
+                int setVcode = userMapper.setVerificationCode(email, code);
+                if (resetVcodeState == 1 && setVcode == 1) {
+                    MailUtils mail = MailUtils.getVerificationMail(email, code);
+                    int res = emailUtils.sendMailHtml(mail);
+                    if (res == 1) {
+                        //寄信成功
+                        return 1;
+                    } else {
+                        //寄信失败
+                        return -2;
+                    }
+                } else {
+                    //更新资料库失败
+                    return -3;
+                }
+            }
+        }
+        //email 不存在
+        return -1;
+    }
+
+    @Override
+    public int changePasswordByVcode(ChangeCodeParam changeCodeParam) {
+        String email = changeCodeParam.getEmail();
+        String password = changeCodeParam.getPwd();
+        String verification_code = changeCodeParam.getVerification_code();
+        if (userMapper.checkEmailExist(email) == 1) {
+            if (userMapper.getVerificationCode(email).equals(verification_code)) {
+                if (userMapper.changePassword(email, password) == 1) {
+                    //修改成功
+                    return 1;
+                } else {
+                    //更新资料库失败
+                    return -3;
+                }
+            } else {
+                //Vcode 错误
+                return -2;
+            }
+        } else {
+            //email不存在
             return -1;
         }
     }

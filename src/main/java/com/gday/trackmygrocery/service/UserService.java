@@ -3,6 +3,7 @@ package com.gday.trackmygrocery.service;
 import com.gday.trackmygrocery.dao.pojo.SpecialUser;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.vo.Profile;
+import com.gday.trackmygrocery.vo.params.ChangeCodeParam;
 import com.gday.trackmygrocery.vo.params.LoginParam;
 import com.gday.trackmygrocery.vo.params.ProfileParam;
 import com.gday.trackmygrocery.vo.params.ResetPwdParam;
@@ -41,4 +42,8 @@ public interface UserService {
     int sendVerifyCode(String email);
 
     int verifyUser(User user);
+
+    int sendChageCode(String email);
+
+    int changePasswordByVcode(ChangeCodeParam changeCodeParam);
 }

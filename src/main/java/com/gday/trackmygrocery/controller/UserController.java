@@ -6,6 +6,7 @@ import com.gday.trackmygrocery.service.UserService;
 import com.gday.trackmygrocery.utils.LogUtils;
 import com.gday.trackmygrocery.utils.QiNiuUtils;
 import com.gday.trackmygrocery.vo.Profile;
+import com.gday.trackmygrocery.vo.params.ChangeCodeParam;
 import com.gday.trackmygrocery.vo.params.LoginParam;
 import com.gday.trackmygrocery.vo.params.ProfileParam;
 import com.gday.trackmygrocery.vo.params.ResetPwdParam;
@@ -35,7 +36,7 @@ public class UserController {
 
     @GetMapping("/get/id/{id}")
     @ApiOperation("Get User information using user id")
-    public User currentUser(@PathVariable("id") int id){
+    public User currentUser(@PathVariable("id") int id) {
         logger.info("currentUser<<<(id: int): " + id);
         User res = userService.getUserById(id);
         logger.info("currentUser>>>" + logUtils.printObjAsLog(res));
@@ -79,6 +80,11 @@ public class UserController {
         // 0:邮箱存在, -1:数据库插入失败, -2:邮件发送异常
         logger.info("sendVerifyCode<<<(email: String): " + user);
         int res = userService.sendVerifyCode(user.getEmail());
+        logger.info("sendVerifyCode---\n" + "email不存在：-1\n" +
+                "    寄信失败：-2\n" +
+                "    更新资料库失败：-1\n" +
+                "    已认证：0\n" +
+                "    正确时：1");
         logger.info("sendVerifyCode>>>" + res);
         return res;
     }
@@ -90,30 +96,48 @@ public class UserController {
      * @param user
      * @return
      */
-//    @PostMapping("/register/sendChangeCode")
-//    @ApiOperation("Insert new User except avatar") //foget password change code
-//    public int sendChangeCode(@RequestBody User user) {
-//       //equal email not equal return 0
-//        /**
-//         * send verification code by email >store code to database
-//         *
-//         *
-//         */
-//    }
+
+    /**
+     * send verification code by email >store code to database
+     */
+
+    @PostMapping("/register/sendChangeCode")
+    @ApiOperation("SendChangeCode") //foget password change code
+    public int sendChangeCode(@PathVariable("email") String email) {
+        //equal email not equal return 0
+        logger.info("sendChangeCode<<<(email: String): " + email);
+        int res = userService.sendChageCode(email);
+        logger.info("sendChangeCode---\n" + "email不存在：-1\n" +
+                "    寄信失败：-2\n" +
+                "    更新资料库失败：-3\n" +
+                "    寄信成功：1");
+        logger.info("sendChangeCode>>>" + res);
+        return res;
+    }
 
     /**
      * /register/changePasswordbyVcode，> email,verification_code,pwd
-     *  method name changePasswordbyVcode
-     * @param loginParam
-     * @return
-     * correct return 1 and change pwd and verification_code =null
+     * method name changePasswordbyVcode
      *
-     *
+     * @param changeCodeParam
+     * @return correct return 1 and change pwd and verification_code =null
+     * <p>
+     * <p>
      * error -1 ~-n
      */
 
-
-
+    @PostMapping("register/changePasswordbyVcode")
+    @ApiOperation("Change password")
+    public int changePasswordByVcode(@RequestBody ChangeCodeParam changeCodeParam) {
+        logger.info("changePasswordbyVcode<<<(changeCodeParam: ChangeCodeParam): "+logUtils.printObjAsLog(changeCodeParam));
+        int res=userService.changePasswordByVcode(changeCodeParam);
+        logger.info("changePasswordByVcode---\n" + "email不存在：-1\n" +
+                "    Vcode 错误：-2\n" +
+                "    更新资料库失败：-3\n" +
+                "    修改成功：1");
+        logger.info("changePasswordbyVcode>>>"+res);
+        return res;
+    }
 
     @PostMapping("/login/normal")
     @ApiOperation("Normal Login using email and pwd")
@@ -194,7 +218,7 @@ public class UserController {
         String originalFilename = file.getOriginalFilename();
         String filename = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
         boolean upload = qiNiuUtils.upload(file, filename);
-        if(upload && userService.updateAvatar(QiNiuUtils.url + filename,id)==1){
+        if (upload && userService.updateAvatar(QiNiuUtils.url + filename, id) == 1) {
             logger.info("updateAvatar>>>" + 1);
             return 1;
         }

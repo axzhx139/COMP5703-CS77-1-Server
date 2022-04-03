@@ -99,6 +99,7 @@ public class UserController {
         logger.info("sendChangeCode---\n" + "email不存在：-1\n" +
                 "    寄信失败：-2\n" +
                 "    更新资料库失败：-3\n" +
+                "    未验证：-4\n" +
                 "    寄信成功：1");
         logger.info("sendChangeCode>>>" + res);
         return res;

@@ -85,7 +85,7 @@ public interface UserMapper {
      @Update("update mg_user SET verification_code= #{verificationCode} where email = #{email}")
      int setVerificationCode(String email,String verificationCode);
 
-     @Update("update mg_user SET pwd= #{pwd} where email=#{email}")
+     @Update("update mg_user SET pwd= #{pwd},verification_code=null where email=#{email}")
      int changePassword(String email,String pwd);
 
 

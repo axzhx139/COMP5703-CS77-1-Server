@@ -218,9 +218,8 @@ public class UserServiceImpl implements UserService {
         if (userMapper.checkEmailExist(email.trim()) == 1) {
             if (userMapper.checkVerificationCodeStatus(email) == 1) {
                 String code = MailUtils.generateVerificationCode();
-                int resetVcodeState = userMapper.resetVerificationCodeStatus(email);
                 int setVcode = userMapper.setVerificationCode(email, code);
-                if (resetVcodeState == 1 && setVcode == 1) {
+                if ( setVcode == 1) {
                     MailUtils mail = MailUtils.getVerificationMail(email, code);
                     int res = emailUtils.sendMailHtml(mail);
                     if (res == 1) {
@@ -234,6 +233,9 @@ public class UserServiceImpl implements UserService {
                     //更新资料库失败
                     return -3;
                 }
+            }else {
+                //未验证
+                return -4;
             }
         }
         //email 不存在

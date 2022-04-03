@@ -9,6 +9,8 @@ import java.util.List;
 public interface ItemService {
     List<Item> getItemByUser(int id);
 
+    List<Item> getItemByUserAndType(int id, int sortType);
+
     Item getItemById(int id);
 
     int deleteItemById(int id);

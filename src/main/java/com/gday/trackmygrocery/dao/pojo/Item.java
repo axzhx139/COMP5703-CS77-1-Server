@@ -33,4 +33,5 @@ public class Item implements Serializable {
     private Date remindTime;
 
     private Integer uId;
+    private Integer isConsumed; //0:未消费， 1:已消费， -1:已过期
 }

@@ -14,6 +14,19 @@ public interface ItemMapper {
     @Select("select * from mg_item where u_id = #{id}")
     List<Item> selectItemByUserId(int id);
 
+    @Select("select * from mg_item where u_id = #{id} where isConsumed=0")
+    List<Item> selectInStockItemByUserId(int id);
+
+    @Select("select * from mg_item where u_id = #{id} where isConsumed!=0")
+    List<Item> selectHistoryItemByUserId(int id);
+
+    @Select("select * from mg_item where u_id = #{id} where isConsumed=1")
+    List<Item> selectConsumedItemByUserId(int id);
+
+    @Select("select * from mg_item where u_id = #{id} where isConsumed=-1")
+    List<Item> selectExpiredItemByUserId(int id);
+
+
     @Select("select * from mg_item where item_id = #{id}")
     Item selectItemById(int id);
 
@@ -22,9 +35,9 @@ public interface ItemMapper {
 
     @Insert("insert into mg_item(name,add_date,con_date," +
             "exp_date, add_method, detail,status,category," +
-            "remind_time,other_detail,u_id) values(#{name},#{addDate},#{conDate}" +
+            "remind_time,other_detail,u_id, isConsumed) values(#{name},#{addDate},#{conDate}" +
             ",#{expDate},#{addMethod},#{detail},#{status}," +
-            "#{category},#{remindTime},#{otherDetail},#{uId})")
+            "#{category},#{remindTime},#{otherDetail},#{uId}, 1)")
     @Options(useGeneratedKeys = true, keyProperty = "itemId", keyColumn = "item_id")
     int insertItem(Item item);
 

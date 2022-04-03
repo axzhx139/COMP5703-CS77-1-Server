@@ -59,6 +59,26 @@ public class ItemController {
         return itemVos;
     }
 
+    //sortType  1:过期时间, 2:类别, 3:名称, 4:默认,
+    //history   -1:all, -2:expire, -3:consume
+    @GetMapping("/user/{id}/{sortType}")
+    @ApiOperation("Get items using user id !! added isPotential attribute")
+    public List<ItemVo> getItemsByUserIdAndType(@PathVariable("id") int id, @PathVariable("sortType") int sortType) {
+        logger.info("getItemsByUserIdAndType<<<(id: int): " + id + "(sortType: int): " + sortType);
+        List<Item> itemByUser = itemService.getItemByUserAndType(id, sortType);
+        List<ItemVo> itemVos = new ArrayList<>();
+        for (Item item : itemByUser) {
+            ItemVo itemVo = new ItemVo();
+            BeanUtils.copyProperties(item, itemVo);
+            if (potentialService.checkPotential(item)) {
+                itemVo.setPotential(true);
+            }
+            itemVos.add(itemVo);
+        }
+        logger.info("getItemsByUserIdAndType>>>" + logUtils.printListAsLog(itemVos));
+        return itemVos;
+    }
+
     @GetMapping("/{id}")
     @ApiOperation("Get items using item id")
     public Item getItemById(@PathVariable("id") int id) {
@@ -83,7 +103,7 @@ public class ItemController {
         logger.info("insertItem<<<(item: Item): " + logUtils.printObjAsLog(item));
         int res = itemService.insertItem(item);
         logger.info("insertItem>>>" + res);
-        return res;
+        return res;//-1:Exception, -2:Adding expired item
     }
 
     @PostMapping("/update")

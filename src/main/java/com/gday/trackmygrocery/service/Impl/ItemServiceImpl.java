@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -23,6 +24,39 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getItemByUser(int id) {
         return itemMapper.selectItemByUserId(id);
+    }
+
+    //sortType  1:过期时间, 2:类别, 3:名称, 4:默认,
+    //history   -1:all, -2:expire, -3:consume
+    @Override
+    public List<Item> getItemByUserAndType(int id, int sortType) {
+        List<Item> res;
+        if (sortType > 0) {
+            res = itemMapper.selectInStockItemByUserId(id);
+            switch (sortType) {
+                case 1:
+                    return res.stream().sorted(Comparator.comparing(Item::getExpDate)).collect(Collectors.toList());
+                case 2:
+                    return res.stream().sorted(Comparator.comparing(Item::getCategory)).collect(Collectors.toList());
+                case 3:
+                    return res.stream().sorted(Comparator.comparing(Item::getName)).collect(Collectors.toList());
+                case 4:
+                    return res;
+                default:
+                    return null;
+            }
+        } else {
+            switch (sortType) {
+                case -1:
+                    return itemMapper.selectHistoryItemByUserId(id);
+                case -2:
+                    return itemMapper.selectExpiredItemByUserId(id);
+                case -3:
+                    return itemMapper.selectConsumedItemByUserId(id);
+                default:
+                    return null;
+            }
+        }
     }
 
     @Override
@@ -38,7 +72,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public int insertItem(Item item) {
         try{
-            itemMapper.insertItem(item);
+            Date systemDate = new Date();
+            if (item.getExpDate().before(systemDate)) {
+                //添加的是过期商品
+                //itemMapper.insertExpiredItem(item);
+                return -2;
+            } else {
+                itemMapper.insertItem(item);
+            }
             return item.getItemId();
         }catch(Exception e){
             return -1;

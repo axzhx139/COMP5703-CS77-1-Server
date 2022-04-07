@@ -14,16 +14,16 @@ public interface ItemMapper {
     @Select("select * from mg_item where u_id = #{id}")
     List<Item> selectItemByUserId(int id);
 
-    @Select("select * from mg_item where u_id = #{id} where isConsumed=0")
+    @Select("select * from mg_item where u_id = #{id} and isConsumed=0")
     List<Item> selectInStockItemByUserId(int id);
 
-    @Select("select * from mg_item where u_id = #{id} where isConsumed!=0")
+    @Select("select * from mg_item where u_id = #{id} and isConsumed!=0")
     List<Item> selectHistoryItemByUserId(int id);
 
-    @Select("select * from mg_item where u_id = #{id} where isConsumed=1")
+    @Select("select * from mg_item where u_id = #{id} and isConsumed=1")
     List<Item> selectConsumedItemByUserId(int id);
 
-    @Select("select * from mg_item where u_id = #{id} where isConsumed=-1")
+    @Select("select * from mg_item where u_id = #{id} and isConsumed=-1")
     List<Item> selectExpiredItemByUserId(int id);
 
 

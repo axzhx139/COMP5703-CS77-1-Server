@@ -48,11 +48,12 @@ public class ItemServiceImpl implements ItemService {
         } else {
             switch (sortType) {
                 case -1:
-                    return itemMapper.selectHistoryItemByUserId(id);
+                    System.out.println(id);
+                    return itemMapper.selectHistoryItemByUserId(id).stream().sorted(Comparator.comparing(Item::getAddDate).reversed()).collect(Collectors.toList());
                 case -2:
-                    return itemMapper.selectExpiredItemByUserId(id);
+                    return itemMapper.selectExpiredItemByUserId(id).stream().sorted(Comparator.comparing(Item::getExpDate).reversed()).collect(Collectors.toList());
                 case -3:
-                    return itemMapper.selectConsumedItemByUserId(id);
+                    return itemMapper.selectConsumedItemByUserId(id).stream().sorted(Comparator.comparing(Item::getConDate).reversed()).collect(Collectors.toList());
                 default:
                     return null;
             }

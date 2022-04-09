@@ -82,6 +82,6 @@ public interface ItemMapper {
     @Update("update mg_item SET picture = #{s} where item_id = #{id}")
     int uploadPic(int id, String s);
 
-    @Update("update mg_item SET isConsumed = -1 where expDate < #{date}")
+    @Update("update mg_item SET isConsumed = -1 where expDate < #{date} and isConsumed = 0")
     int expireItem(Date date);
 }

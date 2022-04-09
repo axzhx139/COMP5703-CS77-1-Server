@@ -36,4 +36,6 @@ public interface ItemService {
     List<Item> getPotentialList(int id);
 
     int uploadPic(int id, String s);
+
+    public void expireItem();
 }

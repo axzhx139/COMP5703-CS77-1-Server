@@ -11,6 +11,12 @@ import java.util.List;
 @Mapper
 public interface ItemMapper {
 
+    @Update("update mg_item SET unread = false where item_id = #{itemId}")
+    int setNotificationStatus(int itemId);
+
+    @Select("select unread from mg_item where u_id = #{itemId}")
+    Boolean checkNotificationStatus(int itemId);
+
     @Select("select * from mg_item where u_id = #{id}")
     List<Item> selectItemByUserId(int id);
 
@@ -26,6 +32,8 @@ public interface ItemMapper {
     @Select("select * from mg_item where u_id = #{id} and isConsumed=-1")
     List<Item> selectExpiredItemByUserId(int id);
 
+    @Select("select remindTime from mg_item where itemId = #{itemId}")
+    Date selectRemindTimeByItemId(int itemId);
 
     @Select("select * from mg_item where item_id = #{id}")
     Item selectItemById(int id);
@@ -73,4 +81,7 @@ public interface ItemMapper {
 
     @Update("update mg_item SET picture = #{s} where item_id = #{id}")
     int uploadPic(int id, String s);
+
+    @Update("update mg_item SET isConsumed = -1 where expDate < #{date}")
+    int expireItem(Date date);
 }

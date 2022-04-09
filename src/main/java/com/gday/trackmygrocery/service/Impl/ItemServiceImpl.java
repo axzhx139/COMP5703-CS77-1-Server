@@ -4,13 +4,17 @@ import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.mapper.ItemMapper;
 import com.gday.trackmygrocery.service.ItemService;
 import com.mysql.cj.jdbc.Blob;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +24,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemMapper itemMapper;
+
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public List<Item> getItemByUser(int id) {
@@ -79,6 +85,7 @@ public class ItemServiceImpl implements ItemService {
                 //itemMapper.insertExpiredItem(item);
                 return -2;
             } else {
+                item.setUnread(true);
                 itemMapper.insertItem(item);
             }
             return item.getItemId();
@@ -90,6 +97,12 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public int updateItem(Item item) {
         try{
+            //如果update发现提醒日期改变，重置unread
+            Date oldRemindTime = itemMapper.selectRemindTimeByItemId(item.getItemId());
+            if (oldRemindTime != null && !oldRemindTime.equals(item.getRemindTime())) {
+                item.setUnread(true);
+                logger.info("updateItem---Item's remind time has been reset, So change the unread status to TRUE.");
+            }
             return itemMapper.updateItem(item);
         }catch(Exception e){
             return -1;
@@ -177,4 +190,15 @@ public class ItemServiceImpl implements ItemService {
     public int uploadPic(int id, String s) {
         return itemMapper.uploadPic(id,s);
     }
+
+    @Override
+    @Scheduled(cron ="0 0 0 * * ?")
+    public void expireItem() {
+        Date date = new Date();
+        int res = itemMapper.expireItem(date);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        logger.info("expireItem---Today is " + dateFormat.format(date) + ". Server set the expire food expired!\n" +
+                "expireItem---There are " + res + " items exipred today!");
+    }
+
 }

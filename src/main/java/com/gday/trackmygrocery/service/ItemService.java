@@ -3,6 +3,7 @@ package com.gday.trackmygrocery.service;
 import com.gday.trackmygrocery.dao.pojo.Item;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -27,15 +28,15 @@ public interface ItemService {
 
     List<Item> getItemByRemindDate(int id, Date date);
 
-    int updatePicture(int id, MultipartFile multipartFile);
-
     String getPictureById(int id);
 
     List<Item> getInStockItemById(int id);
 
     List<Item> getPotentialList(int id);
 
-    int uploadPic(int id, String s);
+    int updatePictureUrlToDatabase(int id, String s);
+
+
 
     public void expireItem();
 }

@@ -3,6 +3,7 @@ package com.gday.trackmygrocery.controller;
 import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.service.ItemService;
 import com.gday.trackmygrocery.service.PotentialService;
+import com.gday.trackmygrocery.utils.PictureUtils;
 import com.gday.trackmygrocery.utils.QiNiuUtils;
 import com.gday.trackmygrocery.vo.ItemVo;
 import com.gday.trackmygrocery.vo.params.RemindParam;
@@ -10,20 +11,29 @@ import com.gday.trackmygrocery.utils.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.util.ClassUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("item")
@@ -31,6 +41,7 @@ public class ItemController {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
     final LogUtils logUtils = LogUtils.getInstance();
+    final PictureUtils pictureUtils = PictureUtils.getInstance();
 
     @Autowired
     private QiNiuUtils qiNiuUtils;
@@ -155,26 +166,35 @@ public class ItemController {
 
     @PostMapping("/update/picture")
     @ApiOperation("Update item's picture using item id")
-    public int updatePictureById(@RequestParam("id") int id, @RequestParam("picture") MultipartFile file) {
-        logger.info("updatePictureById<<<(id: int): " + id + "(picture: MultipartFile): " + logUtils.printObjAsLog(file));
-        String originalFilename = file.getOriginalFilename();
-        String filename = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
-        boolean upload = qiNiuUtils.upload(file, filename);
-        if (upload && itemService.uploadPic(id, QiNiuUtils.url + filename) == 1) {
-            logger.info("updatePictureById>>>" + 1);
-            return 1;
+    public int updatePictureById(@RequestParam("item_id") int item_id, @RequestParam("picture") MultipartFile file) {
+        logger.info("updatePictureById<<<(item_id: int): " + item_id + "(picture: MultipartFile): " + logUtils.printObjAsLog(file));
+        String url = pictureUtils.updatePictureToServer("item", item_id, file);
+        logger.info("updatePictureById---\n" +
+                "    数据插入成功：1\n" +
+                "    数据插入失败：-1\n");
+        if (url != null) {
+            int res = itemService.updatePictureUrlToDatabase(item_id, url);
+            if (res == 1) {
+                logger.info("updatePictureById>>> 1");
+                return 1;
+            }
         }
-        logger.info("updatePictureById>>>" + -1);
+        logger.info("updatePictureById>>> -1");
         return -1;
     }
 
-    @GetMapping(value = "/picture/{id}")
+    @ResponseBody
+    @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get item's picture using item id")
-    public String getPictureById(@PathVariable("id") int id) {
+    public byte[] getPictureById(@PathVariable("id") int id) throws IOException {
         logger.info("getPictureById<<<(id: int): " + id);
         String res = itemService.getPictureById(id);
+        byte[]bytes = pictureUtils.getPictureFromServer(res);
+        if (bytes!=null){
+            return bytes;
+        }
         logger.info("getPictureById>>>" + res);
-        return res;
+        return null;
     }
 
     @GetMapping("/potential/{id}")

@@ -3,17 +3,14 @@ package com.gday.trackmygrocery.service.Impl;
 import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.mapper.ItemMapper;
 import com.gday.trackmygrocery.service.ItemService;
-import com.mysql.cj.jdbc.Blob;
+import com.gday.trackmygrocery.utils.PictureUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -159,17 +156,7 @@ public class ItemServiceImpl implements ItemService {
         return resultItems;
     }
 
-    @Override
-    public int updatePicture(int id, MultipartFile multipartFile) {
-        try {
-            InputStream inputStream = multipartFile.getInputStream();
-            byte[] bytes = multipartFile.getBytes();
-            return itemMapper.updatePicture(id,bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }
+
 
     @Override
     public String getPictureById(int id) {
@@ -187,8 +174,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public int uploadPic(int id, String s) {
-        return itemMapper.uploadPic(id,s);
+    public int updatePictureUrlToDatabase(int id, String url) {
+        return itemMapper.storePictureUrlByItemId(id,url);
     }
 
     @Override

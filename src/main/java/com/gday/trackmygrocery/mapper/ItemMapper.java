@@ -67,8 +67,8 @@ public interface ItemMapper {
     @Select("select * from mg_item where u_id=#{id}")
     List<Item> selectItemByRemindDate(int id);
 
-    @Update("update mg_item SET picture = #{bytes} where item_id = #{id}")
-    int updatePicture(int id, byte[] bytes);
+//    @Update("update mg_item SET picture = #{bytes} where item_id = #{id}")
+//    int updatePicture(int id, byte[] bytes);
 
     @Select("select picture from mg_item where item_id = #{id}")
     String getPictureById(int id);
@@ -80,7 +80,7 @@ public interface ItemMapper {
     List<Item> selectPotentialList(int id);
 
     @Update("update mg_item SET picture = #{s} where item_id = #{id}")
-    int uploadPic(int id, String s);
+    int storePictureUrlByItemId(int id, String s);
 
     @Update("update mg_item SET isConsumed = -1 where expDate < #{date} and isConsumed = 0")
     int expireItem(Date date);

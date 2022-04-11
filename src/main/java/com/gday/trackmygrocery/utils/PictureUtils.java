@@ -30,24 +30,29 @@ public class PictureUtils {
         return pictureUtils;
     }
 
-    public String updatePictureToServer(String typeName, int item_id, MultipartFile multipartFile) {
+    public String updatePictureToServer(String typeName, int id, MultipartFile multipartFile) {
         if (typeName != null && multipartFile != null) {
             String path = PATH + typeName.substring(0, 1).toUpperCase() + typeName.substring(1) + "/";
             makeDirectory(path);
 
-            String fileName = path + "item_" + item_id + "." + StringUtils.substringAfterLast(multipartFile.getOriginalFilename(), ".");
+            String[] deleteType = {"png", "jpg", "gif"};
+
+            for (String s : deleteType) {
+                File file = new File(path +typeName+"_" + id + "." + s);
+                if (file.exists()) {
+                    file.delete();
+                }
+            }
+
+
+            String fileName = path +typeName+ "_" + id + "." + StringUtils.substringAfterLast(multipartFile.getOriginalFilename(), ".");
             File pictureFile = new File(fileName);
             try {
                 pictureFile.createNewFile();
-                try {
-                    OutputStream outputStream = new FileOutputStream(pictureFile);
-                    outputStream.write(multipartFile.getBytes());
-                } catch (Exception e) {
-                    return null;
-                }
-
+                OutputStream outputStream = new FileOutputStream(pictureFile);
+                outputStream.write(multipartFile.getBytes());
                 return pictureFile.getAbsolutePath();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }

@@ -121,6 +121,9 @@ public class ItemController {
     @ApiOperation("Update item except picture")
     public int updateItem(@RequestBody Item item) {
         logger.info("updateItem<<<(item: Item): " + logUtils.printObjAsLog(item));
+        logger.info("updateItem---\n"+
+                "    数据插入成功：1\n" +
+                "    数据插入失败：-1\n");
         int res = itemService.updateItem(item);
         logger.info("updateItem>>>" + res);
         return res;
@@ -175,11 +178,11 @@ public class ItemController {
         if (url != null) {
             int res = itemService.updatePictureUrlToDatabase(item_id, url);
             if (res == 1) {
-                logger.info("updatePictureById>>> 1");
+                logger.info("updatePictureById>>>"+res);
                 return 1;
             }
         }
-        logger.info("updatePictureById>>> -1");
+        logger.info("updatePictureById>>>-1");
         return -1;
     }
 
@@ -191,6 +194,7 @@ public class ItemController {
         String res = itemService.getPictureById(id);
         byte[]bytes = pictureUtils.getPictureFromServer(res);
         if (bytes!=null){
+            logger.info("getPictureById>>>" +logUtils.printObjAsLog(bytes));
             return bytes;
         }
         logger.info("getPictureById>>>" + res);

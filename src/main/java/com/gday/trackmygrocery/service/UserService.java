@@ -35,9 +35,9 @@ public interface UserService {
 
     int updateProfile(ProfileParam profileParam);
 
-    int updateAvatar(String s, int id) ;
+    int updateUserAvatarUrlToDatabase(String url, int u_id) ;
 
-    String getAvatar(int id);
+    String getAvatarUrl(int id);
 
     int sendVerifyCode(String email);
 

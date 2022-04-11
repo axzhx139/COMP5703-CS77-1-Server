@@ -144,12 +144,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateAvatar(String s, int id) {
+    public int updateUserAvatarUrlToDatabase(String s, int id) {
         return userMapper.updateAvatar(s, id);
     }
 
     @Override
-    public String getAvatar(int id) {
+    public String getAvatarUrl(int id) {
         return userMapper.selectAvatarById(id);
     }
 

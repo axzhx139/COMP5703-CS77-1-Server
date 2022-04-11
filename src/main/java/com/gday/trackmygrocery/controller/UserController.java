@@ -4,14 +4,13 @@ import com.gday.trackmygrocery.dao.pojo.SpecialUser;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.service.UserService;
 import com.gday.trackmygrocery.utils.LogUtils;
-import com.gday.trackmygrocery.utils.QiNiuUtils;
+import com.gday.trackmygrocery.utils.PictureUtils;
 import com.gday.trackmygrocery.vo.Profile;
 import com.gday.trackmygrocery.vo.params.ChangeCodeParam;
 import com.gday.trackmygrocery.vo.params.LoginParam;
 import com.gday.trackmygrocery.vo.params.ProfileParam;
 import com.gday.trackmygrocery.vo.params.ResetPwdParam;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("users")
@@ -27,9 +26,10 @@ public class UserController {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
     final LogUtils logUtils = LogUtils.getInstance();
+    final PictureUtils pictureUtils=PictureUtils.getInstance();
 
-    @Autowired
-    private QiNiuUtils qiNiuUtils;
+//    @Autowired
+//    private QiNiuUtils qiNiuUtils;
 
     @Autowired
     private UserService userService;
@@ -193,25 +193,46 @@ public class UserController {
 
     @PostMapping("/avatar/update/{id}")
     @ApiOperation("Update user's avatar")
-    public int updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("id") int id) {
+    public int updateAvatar(@PathVariable("id") int id,@RequestParam("picture") MultipartFile file) {
         logger.info("updateAvatar<<<(file: MultipartFile): " + logUtils.printObjAsLog(file) + "(id: int): " + id);
-        String originalFilename = file.getOriginalFilename();
-        String filename = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
-        boolean upload = qiNiuUtils.upload(file, filename);
-        if (upload && userService.updateAvatar(QiNiuUtils.url + filename, id) == 1) {
-            logger.info("updateAvatar>>>" + 1);
-            return 1;
+        String url = pictureUtils.updatePictureToServer("userAvatar", id, file);
+        logger.info("updateAvatar---\n" +
+                "    数据插入成功：1\n" +
+                "    数据插入失败：-1\n");
+        if(url!=null){
+            int res=userService.updateUserAvatarUrlToDatabase(url,id);
+            if (res==1){
+                logger.info("updateAvatar>>>"+res);
+                return 1;
+            }
         }
-        logger.info("updateAvatar>>>" + -1);
+        logger.info("updateAvatar>>>-1");
         return -1;
-    }
 
-    @GetMapping(value = "/avatar/{id}")
+//        String originalFilename = file.getOriginalFilename();
+//        String filename = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
+//        boolean upload = qiNiuUtils.upload(file, filename);
+//        if (upload && userService.updateAvatar(QiNiuUtils.url + filename, id) == 1) {
+//            logger.info("updateAvatar>>>" + 1);
+//            return 1;
+//        }
+//        logger.info("updateAvatar>>>" + -1);
+//        return -1;
+    }
+    //    @GetMapping(value = "/avatar/{id}")
+
+    @ResponseBody
+    @RequestMapping(value = "/avatar/{id}",method =RequestMethod.GET,produces = {MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get user's avatar")
-    public String getAvatar(@PathVariable("id") int id) {
+    public byte[] getAvatar(@PathVariable("id") int id) throws IOException {
         logger.info("getAvatar<<<(id: int): " + id);
-        String res = userService.getAvatar(id);
+        String res=userService.getAvatarUrl(id);
+        byte[] bytes = pictureUtils.getPictureFromServer(res);
+        if (bytes!=null){
+            logger.info("getAvatar>>>"+logUtils.printObjAsLog(bytes));
+            return bytes;
+        }
         logger.info("getAvatar>>>" + res);
-        return res;
+        return null;
     }
 }

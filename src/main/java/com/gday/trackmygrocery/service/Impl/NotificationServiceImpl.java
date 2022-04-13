@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,7 +41,13 @@ public class NotificationServiceImpl implements NotificationService {
         List<ItemNotification> itemNotificationList = new ArrayList<>();
         int unread = 0;
         int read = 0;
+        Date date = new Date();
+        int skip = 0;
         for (Item item : items) {
+            if (item.getRemindTime().after(date)) {
+                skip++;
+                continue;
+            }
             ItemNotification itemNotification = new ItemNotification(item);
             itemNotificationList.add(itemNotification);
             if (item.getUnread()) {
@@ -48,7 +56,7 @@ public class NotificationServiceImpl implements NotificationService {
                 read++;
             }
         }
-        if (unread + read != items.size()) {
+        if (unread + read + skip != items.size()) {
             logger.error("getNotificationByUser---Some Item do not have valid unread field, please check!");
             return null;
         }

@@ -1,6 +1,7 @@
 package com.gday.trackmygrocery.service;
 
 import com.gday.trackmygrocery.dao.pojo.Item;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
@@ -39,4 +40,7 @@ public interface ItemService {
 
 
     public void expireItem();
+
+    @Scheduled(cron ="0 0 0 * * ?")
+    void readNotification();
 }

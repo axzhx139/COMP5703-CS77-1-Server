@@ -188,4 +188,14 @@ public class ItemServiceImpl implements ItemService {
                 "expireItem---There are " + res + " items exipred today!");
     }
 
+    @Override
+    @Scheduled(cron ="0 0 0 * * ?")
+    public void readNotification() {
+        Date date = new Date();
+        int res = itemMapper.readNotification(date);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        logger.info("readNotification---Today is " + dateFormat.format(date) + ". Server set the food notifications to read!\n" +
+                "readNotification---There are " + res + " notifications readed today!");
+    }
+
 }

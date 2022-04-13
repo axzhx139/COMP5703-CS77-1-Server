@@ -45,6 +45,4 @@ public class NotificationController {
         return res;
     }
 
-
-
 }

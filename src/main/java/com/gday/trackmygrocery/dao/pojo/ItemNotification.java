@@ -14,7 +14,7 @@ public class ItemNotification implements Serializable {
     private Integer itemId;
 
     private String addDate;
-    private Integer remindDays;
+    private Integer expireDays;
     private Boolean unread;
 
     public ItemNotification (Item item) {
@@ -24,6 +24,6 @@ public class ItemNotification implements Serializable {
         this.addDate = dateFormat.format(item.getAddDate());
         this.unread = item.getUnread();
         Date date = new Date();
-        this.remindDays = (int) ((item.getRemindTime().getTime() - date.getTime()) / (1000*3600*24));
+        this.expireDays = (int) ((item.getExpDate().getTime() - date.getTime()) / (1000*3600*24));
     }
 }

@@ -121,7 +121,7 @@ public class ItemController {
     @ApiOperation("Update item except picture")
     public int updateItem(@RequestBody Item item) {
         logger.info("updateItem<<<(item: Item): " + logUtils.printObjAsLog(item));
-        logger.info("updateItem---\n"+
+        logger.info("updateItem---\n" +
                 "    数据插入成功：1\n" +
                 "    数据插入失败：-1\n");
         int res = itemService.updateItem(item);
@@ -178,7 +178,7 @@ public class ItemController {
         if (url != null) {
             int res = itemService.updatePictureUrlToDatabase(item_id, url);
             if (res == 1) {
-                logger.info("updatePictureById>>>"+res);
+                logger.info("updatePictureById>>>" + res);
                 return 1;
             }
         }
@@ -187,14 +187,16 @@ public class ItemController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_GIF_VALUE})
+    @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get item's picture using item id")
-    public byte[] getPictureById(@PathVariable("id") int id) throws IOException {
+    public byte[] getPictureById(@PathVariable("id") int id) {
         logger.info("getPictureById<<<(id: int): " + id);
         String res = itemService.getPictureById(id);
-        byte[]bytes = pictureUtils.getPictureFromServer(res);
-        if (bytes!=null){
-            logger.info("getPictureById>>>" +logUtils.printObjAsLog(bytes));
+        byte[] bytes;
+        bytes = pictureUtils.getPictureFromServer(res);
+
+        if (bytes != null) {
+            logger.info("getPictureById>>>" + logUtils.printObjAsLog(bytes));
             return bytes;
         }
         logger.info("getPictureById>>>" + res);

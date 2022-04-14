@@ -26,7 +26,7 @@ public class UserController {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
     final LogUtils logUtils = LogUtils.getInstance();
-    final PictureUtils pictureUtils=PictureUtils.getInstance();
+    final PictureUtils pictureUtils = PictureUtils.getInstance();
 
 //    @Autowired
 //    private QiNiuUtils qiNiuUtils;
@@ -109,13 +109,13 @@ public class UserController {
     @PostMapping("register/changePasswordbyVcode")
     @ApiOperation("Change password")
     public int changePasswordByVcode(@RequestBody ChangeCodeParam changeCodeParam) {
-        logger.info("changePasswordbyVcode<<<(changeCodeParam: ChangeCodeParam): "+logUtils.printObjAsLog(changeCodeParam));
-        int res=userService.changePasswordByVcode(changeCodeParam);
+        logger.info("changePasswordbyVcode<<<(changeCodeParam: ChangeCodeParam): " + logUtils.printObjAsLog(changeCodeParam));
+        int res = userService.changePasswordByVcode(changeCodeParam);
         logger.info("changePasswordByVcode---\n" + "email不存在：-1\n" +
                 "    Vcode 错误：-2\n" +
                 "    更新资料库失败：-3\n" +
                 "    修改成功：1");
-        logger.info("changePasswordbyVcode>>>"+res);
+        logger.info("changePasswordbyVcode>>>" + res);
         return res;
     }
 
@@ -193,16 +193,16 @@ public class UserController {
 
     @PostMapping("/avatar/update/{id}")
     @ApiOperation("Update user's avatar")
-    public int updateAvatar(@PathVariable("id") int id,@RequestParam("picture") MultipartFile file) {
+    public int updateAvatar(@PathVariable("id") int id, @RequestParam("picture") MultipartFile file) {
         logger.info("updateAvatar<<<(file: MultipartFile): " + logUtils.printObjAsLog(file) + "(id: int): " + id);
         String url = pictureUtils.updatePictureToServer("userAvatar", id, file);
         logger.info("updateAvatar---\n" +
                 "    数据插入成功：1\n" +
                 "    数据插入失败：-1\n");
-        if(url!=null){
-            int res=userService.updateUserAvatarUrlToDatabase(url,id);
-            if (res==1){
-                logger.info("updateAvatar>>>"+res);
+        if (url != null) {
+            int res = userService.updateUserAvatarUrlToDatabase(url, id);
+            if (res == 1) {
+                logger.info("updateAvatar>>>" + res);
                 return 1;
             }
         }
@@ -222,14 +222,16 @@ public class UserController {
     //    @GetMapping(value = "/avatar/{id}")
 
     @ResponseBody
-    @RequestMapping(value = "/avatar/{id}",method =RequestMethod.GET,produces = {MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_GIF_VALUE})
+    @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get user's avatar")
-    public byte[] getAvatar(@PathVariable("id") int id) throws IOException {
+    public byte[] getAvatar(@PathVariable("id") int id) {
         logger.info("getAvatar<<<(id: int): " + id);
-        String res=userService.getAvatarUrl(id);
-        byte[] bytes = pictureUtils.getPictureFromServer(res);
-        if (bytes!=null){
-            logger.info("getAvatar>>>"+logUtils.printObjAsLog(bytes));
+        String res = userService.getAvatarUrl(id);
+        byte[] bytes;
+        bytes = pictureUtils.getPictureFromServer(res);
+
+        if (bytes != null) {
+            logger.info("getAvatar>>>" + logUtils.printObjAsLog(bytes));
             return bytes;
         }
         logger.info("getAvatar>>>" + res);

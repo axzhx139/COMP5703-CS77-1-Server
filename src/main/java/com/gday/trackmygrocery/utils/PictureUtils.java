@@ -53,7 +53,7 @@ public class PictureUtils {
                 outputStream.write(multipartFile.getBytes());
                 return pictureFile.getAbsolutePath();
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 return null;
             }
         } else {
@@ -68,11 +68,18 @@ public class PictureUtils {
         }
     }
 
-    public byte[] getPictureFromServer(String path) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(new File(path));
-        byte[] bytes = new byte[fileInputStream.available()];
-        fileInputStream.read(bytes, 0, fileInputStream.available());
-        return bytes;
+    public byte[] getPictureFromServer(String path)  {
+        FileInputStream fileInputStream;
+        try {
+            fileInputStream = new FileInputStream(new File(path));
+            byte[] bytes = new byte[fileInputStream.available()];
+            fileInputStream.read(bytes, 0, fileInputStream.available());
+            return bytes;
+        } catch (Exception e) {
+//            e.printStackTrace();
+            return null;
+        }
+
     }
 }
 

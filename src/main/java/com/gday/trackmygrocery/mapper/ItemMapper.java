@@ -14,7 +14,7 @@ public interface ItemMapper {
     @Update("update mg_item SET unread = false where item_id = #{itemId}")
     int setNotificationStatus(int itemId);
 
-    @Select("select unread from mg_item where u_id = #{itemId}")
+    @Select("select unread from mg_item where item_id = #{itemId}")
     Boolean checkNotificationStatus(int itemId);
 
     @Select("select * from mg_item where u_id = #{id}")

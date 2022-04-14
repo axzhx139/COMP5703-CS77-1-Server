@@ -1,9 +1,12 @@
 package com.gday.trackmygrocery.controller;
 
+import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.dao.pojo.ItemNotificationResult;
 import com.gday.trackmygrocery.dao.pojo.Notification;
+import com.gday.trackmygrocery.dao.pojo.NotificationListObj;
 import com.gday.trackmygrocery.service.NotificationService;
 import com.gday.trackmygrocery.utils.LogUtils;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,18 @@ public class NotificationController {
         logger.info("setNotificationStatus<<<(itemId :int): " + itemId);
         Integer res = notificationService.setNotificationStatus(itemId);
         logger.info("setNotificationStatus>>>"+(res));
+        return res;
+    }
+
+    // -1:already readed, 0: itemId not exist, 1: success
+    @PostMapping("/postList")
+    public Integer setNotificationListStatus(@RequestBody NotificationListObj notificationListObj) {
+        logger.info("setNotificationListStatus<<<(itemId :int): " + logUtils.printObjAsLog(notificationListObj));
+        Integer res = 0;
+        for (int id : notificationListObj.getItemIdList()) {
+            res += notificationService.setNotificationStatus(id);
+        }
+        logger.info("setNotificationListStatus>>>" + res);
         return res;
     }
 

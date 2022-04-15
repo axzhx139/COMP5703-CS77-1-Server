@@ -2,15 +2,8 @@ package com.gday.trackmygrocery.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.Base64;
+
 
 public class PictureUtils {
     private final String PATH = "/home/ubuntu/COMP5703/mygrocery/";
@@ -68,16 +61,24 @@ public class PictureUtils {
         }
     }
 
-    public byte[] getPictureFromServer(String path)  {
+    public byte[] getPictureFromServer(String type,String path)  {
         FileInputStream fileInputStream;
+        byte[] bytes;
         try {
             fileInputStream = new FileInputStream(new File(path));
-            byte[] bytes = new byte[fileInputStream.available()];
+            bytes = new byte[fileInputStream.available()];
             fileInputStream.read(bytes, 0, fileInputStream.available());
             return bytes;
         } catch (Exception e) {
-//            e.printStackTrace();
-            return null;
+            String defaultPath=PATH+type.substring(0,1).toUpperCase()+type.substring(1)+"/"+type+"_default.png";
+            try {
+                fileInputStream=new FileInputStream(new File(defaultPath));
+                bytes=new byte[fileInputStream.available()];
+                fileInputStream.read(bytes,0, fileInputStream.available());
+                return bytes;
+            } catch (Exception ex) {
+                return null;
+            }
         }
 
     }

@@ -228,7 +228,7 @@ public class UserController {
         logger.info("getAvatar<<<(id: int): " + id);
         String res = userService.getAvatarUrl(id);
         byte[] bytes;
-        bytes = pictureUtils.getPictureFromServer(res);
+        bytes = pictureUtils.getPictureFromServer("userAvatar",res);
 
         if (bytes != null) {
             logger.info("getAvatar>>>" + logUtils.printObjAsLog(bytes));

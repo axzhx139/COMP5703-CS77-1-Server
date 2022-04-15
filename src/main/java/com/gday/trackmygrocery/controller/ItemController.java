@@ -193,7 +193,7 @@ public class ItemController {
         logger.info("getPictureById<<<(id: int): " + id);
         String res = itemService.getPictureById(id);
         byte[] bytes;
-        bytes = pictureUtils.getPictureFromServer(res);
+        bytes = pictureUtils.getPictureFromServer("item",res);
 
         if (bytes != null) {
             logger.info("getPictureById>>>" + logUtils.printObjAsLog(bytes));

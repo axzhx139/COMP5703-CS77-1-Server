@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService {
             //用户存在
             if (userMapper.checkVerificationCodeStatus(user.getEmail()) == 0) {
                 //未验证
-                if (user.getVerification_code() != null && user.getVerification_code().equals(userMapper.getVerificationCode(user.getEmail()))) {
+                if (user.getVerificationCode() != null && user.getVerificationCode().equals(userMapper.getVerificationCode(user.getEmail()))) {
                     //验证码正确
                     if (userMapper.verifyAndInsertUser(user) == 1) {
                         return userMapper.getUserID(user.getEmail());

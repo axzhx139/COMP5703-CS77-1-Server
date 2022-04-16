@@ -28,13 +28,14 @@ public class User implements Serializable {
 
     private String token;
     
-    private String verification_code;
+    private String verificationCode;
 
-    private Integer verification_code_status;// 0:未验证, 1:已验证 03/28/2022: -1 正在改密码 改好-》变成1
+    private Integer verificationCodeStatus;// 0:未验证, 1:已验证 03/28/2022: -1 正在改密码 改好-》变成1
 
     private String uuid;
 
-    private Date ranking_start_date;
+    private Date rankingStartDate;
 
-    private Integer ranking_days;
+    private Integer rankingDays;
+
 }

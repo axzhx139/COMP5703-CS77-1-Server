@@ -37,9 +37,8 @@ public interface ItemService {
 
     int updatePictureUrlToDatabase(int id, String s);
 
-
-
-    public void expireItem();
+    @Scheduled(cron ="0 0 0 * * ?")
+    void expireItem();
 
     @Scheduled(cron ="0 0 0 * * ?")
     void readNotification();

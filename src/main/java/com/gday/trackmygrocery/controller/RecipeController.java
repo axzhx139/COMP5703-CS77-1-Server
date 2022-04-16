@@ -26,7 +26,12 @@ public class RecipeController {
     @GetMapping("/{id}")
     public List<Recipe> getRecipeById(@PathVariable("id") int id) {
         logger.info("getRecipeById<<<(id: int): " + id);
-        List<Recipe> res = recipeService.getRecipeById(id);
+        List<Recipe> res = null;
+        try {
+            res = recipeService.getRecipeById(id);
+        } catch (Exception e) {
+            logger.error("Something wrong when getting recipes, check the API status please!");
+        }
         logger.info("getRecipeById>>>" + logUtils.printListAsLog(res));
         return res;
     }

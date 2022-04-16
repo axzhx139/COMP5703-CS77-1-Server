@@ -37,7 +37,6 @@ public class RecipeServiceImpl implements RecipeService {
         map.put("number",RECIPE_NUM);
         String finalUrl = UrlUtils.appendParams(recipeURL, map);
 //        System.out.println(finalUrl);
-
         try {
             return JSON.parseArray(run(finalUrl), Recipe.class);
         } catch (IOException e) {

@@ -87,7 +87,7 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     @Scheduled(cron ="0 0 1 * * ?")
-    public void setUserRanking(String address) {
+    public void setUserRanking() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.MONTH, -1);

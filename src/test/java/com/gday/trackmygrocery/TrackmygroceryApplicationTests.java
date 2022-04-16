@@ -11,9 +11,4 @@ class TrackmygroceryApplicationTests {
     @Autowired
     private RankingService rankingService;
 
-    @Test
-    void contextLoads() {
-        rankingService.getPreviousOne(1,null);
-    }
-
 }

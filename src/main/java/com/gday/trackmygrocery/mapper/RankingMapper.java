@@ -56,7 +56,7 @@ public interface RankingMapper {
     @Select("select u_id, ranking_days from mg_user order by ranking_days DESC")
     List<UserRanking> getUserRankings();
 
-    @Results(id="UserRankingMap",value = {
+    @Results(id="UserRankingMap2",value = {
             @Result(column = "u_id",property = "userID"),
             @Result(column = "ranking_days",property = "userRankingDays")})
     @Select("select u_id, ranking_days from mg_user where address like '%#{address}%' order by ranking_days DESC")

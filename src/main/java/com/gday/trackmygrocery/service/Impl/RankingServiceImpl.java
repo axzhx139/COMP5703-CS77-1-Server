@@ -15,6 +15,7 @@ import com.gday.trackmygrocery.service.RankingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -33,7 +34,7 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public List<User> getTopTenUsers(String address) {
         List<User> topTenUsers = null;
-        if (address != null) {
+        if (address != null && !address.equals("null")) {
             topTenUsers = rankingMapper.getTopTenUsersWithAddress(address);
         } else {
             topTenUsers = rankingMapper.getTopTenUsers();
@@ -42,9 +43,9 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public RankingObject getPerviousOne(int id, String address) {
+    public RankingObject getPreviousOne(int id, String address) {
         List<UserRanking> userRankings = null;
-        if (address == null) {
+        if (address == null || address.equals("null")) {
             userRankings = rankingMapper.getUserRankings();
         } else {
             userRankings = rankingMapper.getUserRankingsWithAddress(address);
@@ -56,16 +57,16 @@ public class RankingServiceImpl implements RankingService {
         rankingObject.setUserRankingDays(userRankingDays);
         rankingObject.setUserRanking(userRanking);
         if (userRanking == 1) {
-            rankingObject.setPerviousRanking(-1);
-            rankingObject.setPerviousRankingDays(-1);
-            rankingObject.setPerviousUserID(-1);
+            rankingObject.setPreviousRanking(-1);
+            rankingObject.setPreviousRankingDays(-1);
+            rankingObject.setPreviousUserID(-1);
         } else {
-            int perviousRankingDays = userRankings.get(userRanking - 2).getUserRankingDays();
-            int perviousUserID = userRankings.get(userRanking - 2).getUserID();
-            int perviousRanking = getRanking(perviousRankingDays, userRankings);
-            rankingObject.setPerviousRanking(perviousRanking);
-            rankingObject.setPerviousRankingDays(perviousRankingDays);
-            rankingObject.setPerviousUserID(perviousUserID);
+            int previousRankingDays = userRankings.get(userRanking - 2).getUserRankingDays();
+            int previousUserID = userRankings.get(userRanking - 2).getUserID();
+            int previousRanking = getRanking(previousRankingDays, userRankings);
+            rankingObject.setPreviousRanking(previousRanking);
+            rankingObject.setPreviousRankingDays(previousRankingDays);
+            rankingObject.setPreviousUserID(previousUserID);
         }
         return rankingObject;
     }
@@ -85,6 +86,7 @@ public class RankingServiceImpl implements RankingService {
 
 
     @Override
+    @Scheduled(cron ="0 0 1 * * ?")
     public void setUserRanking(String address) {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());

@@ -13,7 +13,7 @@ class TrackmygroceryApplicationTests {
 
     @Test
     void contextLoads() {
-        rankingService.getPerviousOne(1,null);
+        rankingService.getPreviousOne(1,null);
     }
 
 }

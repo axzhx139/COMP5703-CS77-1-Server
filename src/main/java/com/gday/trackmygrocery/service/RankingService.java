@@ -8,7 +8,7 @@ import java.util.List;
 public interface RankingService {
     List<User> getTopTenUsers(String address);
 
-    RankingObject getPerviousOne(int id, String address);
+    RankingObject getPreviousOne(int id, String address);
 
     void setUserRanking(String address);
 }

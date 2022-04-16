@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class RankingObject extends UserRanking{
     private int userID;
-    private int perviousUserID;
+    private int previousUserID;
     private int userRanking;
-    private int perviousRanking;
+    private int previousRanking;
     private int userRankingDays;
-    private int perviousRankingDays;
+    private int previousRankingDays;
 }

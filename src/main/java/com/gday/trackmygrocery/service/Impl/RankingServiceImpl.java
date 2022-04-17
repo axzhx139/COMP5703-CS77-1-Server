@@ -94,7 +94,7 @@ public class RankingServiceImpl implements RankingService {
 
 
     @Override
-    @Scheduled(cron ="0 0 1 * * ?")
+    @Scheduled(cron ="0 30 * * * ?")
     public void setUserRanking() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());

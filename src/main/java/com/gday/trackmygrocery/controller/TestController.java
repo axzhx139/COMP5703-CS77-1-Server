@@ -22,10 +22,11 @@ public class TestController {
     @RequestMapping("/zhangjiaole")
     public String hello() {
         logger.info("hello>>>" + "<h1>不喝牛奶！</h1>");
-        User user0 = userService.getUserById(1);
+        User user0 = userService.getUserById(11);
         if (user0 == null) {
             return "<h1>不喝牛奶！</h1>" + "<h2>" + EncryptUtils.EncryptString("不喝牛奶！") + "</h2><h3>User 1 not exist!</h3>";
         }
+//        logger.info(String.valueOf(user0.getRanking_days()));
         return "<h1>不喝牛奶！</h1>" + "<h2>" + EncryptUtils.EncryptString("不喝牛奶！") + "</h2><h3>" + logUtils.printObjAsLog(user0) + "</h3>";
     }
 }

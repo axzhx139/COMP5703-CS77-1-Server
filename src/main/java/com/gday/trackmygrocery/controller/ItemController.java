@@ -187,7 +187,7 @@ public class ItemController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get item's picture using item id")
     public byte[] getPictureById(@PathVariable("id") int id) {
         logger.info("getPictureById<<<(id: int): " + id);

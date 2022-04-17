@@ -11,6 +11,7 @@ import com.gday.trackmygrocery.dao.pojo.RankingObject;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.dao.pojo.UserRanking;
 import com.gday.trackmygrocery.mapper.RankingMapper;
+import com.gday.trackmygrocery.mapper.UserMapper;
 import com.gday.trackmygrocery.service.RankingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,8 @@ public class RankingServiceImpl implements RankingService {
     final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private RankingMapper rankingMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public List<User> getTopTenUsers(String address) {
@@ -56,10 +59,13 @@ public class RankingServiceImpl implements RankingService {
         rankingObject.setUserID(id);
         rankingObject.setUserRankingDays(userRankingDays);
         rankingObject.setUserRanking(userRanking);
+        rankingObject.setUserName(userMapper.getUserName(id));
         if (userRanking == 1) {
             rankingObject.setPreviousRanking(-1);
             rankingObject.setPreviousRankingDays(-1);
             rankingObject.setPreviousUserID(-1);
+            rankingObject.setPreviousUserName("N/A");
+            rankingObject.setDaysGap(0);
         } else {
             int previousRankingDays = userRankings.get(userRanking - 2).getUserRankingDays();
             int previousUserID = userRankings.get(userRanking - 2).getUserID();
@@ -67,13 +73,15 @@ public class RankingServiceImpl implements RankingService {
             rankingObject.setPreviousRanking(previousRanking);
             rankingObject.setPreviousRankingDays(previousRankingDays);
             rankingObject.setPreviousUserID(previousUserID);
+            rankingObject.setPreviousUserName(userMapper.getUserName(previousUserID));
+            rankingObject.setDaysGap(previousRankingDays - userRankingDays);
         }
         return rankingObject;
     }
 
     private int getRanking(int userRankingDays, List<UserRanking> userRankings) {
         int ranking = 1;
-        for(int i = 0; i > userRankings.size(); i++) {
+        for(int i = 0; i < userRankings.size(); i++) {
             int days = userRankings.get(i).getUserRankingDays();
             if (days > userRankingDays) {
                 ranking++;
@@ -86,7 +94,7 @@ public class RankingServiceImpl implements RankingService {
 
 
     @Override
-    @Scheduled(cron ="0 0 1 * * ?")
+    @Scheduled(cron ="0 30 * * * ?")
     public void setUserRanking() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());

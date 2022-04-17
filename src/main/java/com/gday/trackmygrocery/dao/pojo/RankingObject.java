@@ -10,4 +10,7 @@ public class RankingObject extends UserRanking{
     private int previousRanking;
     private int userRankingDays;
     private int previousRankingDays;
+    private String userName;
+    private String previousUserName;
+    private int daysGap;
 }

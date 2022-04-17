@@ -21,7 +21,8 @@ public class RecipeServiceImpl implements RecipeService {
     final OkHttpClient client = new OkHttpClient();
     private static final String recipeURL = "https://api.spoonacular.com/recipes/findByIngredients";
     private static final String randomRecipeURL = "https://api.spoonacular.com/recipes/random";
-    private static final String apiKey = "f2e928acc90e458fadc5bcba6c45e251";
+//  private static final String apiKey = "f2e928acc90e458fadc5bcba6c45e251";
+    private static final String apiKey = "d366b3791d9048f5ab9c741361b0e126";
     private static final String RECIPE_NUM = "4";
     private static final int CHECK_EXPIRE_NUM = 5;
 

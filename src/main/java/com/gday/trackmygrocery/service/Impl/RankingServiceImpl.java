@@ -73,7 +73,7 @@ public class RankingServiceImpl implements RankingService {
 
     private int getRanking(int userRankingDays, List<UserRanking> userRankings) {
         int ranking = 1;
-        for(int i = 0; i > userRankings.size(); i++) {
+        for(int i = 0; i < userRankings.size(); i++) {
             int days = userRankings.get(i).getUserRankingDays();
             if (days > userRankingDays) {
                 ranking++;

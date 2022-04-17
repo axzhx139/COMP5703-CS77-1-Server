@@ -88,5 +88,6 @@ public interface UserMapper {
      @Update("update mg_user SET pwd= #{pwd},verification_code=null where email=#{email}")
      int changePassword(String email,String pwd);
 
-
+     @Select("select name from mg_user where u_id = #{id}")
+     String getUserName(int id);
 }

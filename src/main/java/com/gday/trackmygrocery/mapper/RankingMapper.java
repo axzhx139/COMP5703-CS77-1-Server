@@ -39,7 +39,7 @@ public interface RankingMapper {
     List<User> getTopTenUsers();
 
     @Select("select * from mg_user " +
-            "where address like '%#{address}%' " +
+            "where address like concat('%', '${address}', '%') " +
             "order by ranking_days DESC " +
             "limit 10")
     List<User> getTopTenUsersWithAddress(String address);
@@ -59,6 +59,6 @@ public interface RankingMapper {
     @Results(id="UserRankingMap2",value = {
             @Result(column = "u_id",property = "userID"),
             @Result(column = "ranking_days",property = "userRankingDays")})
-    @Select("select u_id, ranking_days from mg_user where address like '%#{address}%' order by ranking_days DESC")
+    @Select("select u_id, ranking_days from mg_user where address like concat('%', '${address}', '%') order by ranking_days DESC")
     List<UserRanking> getUserRankingsWithAddress(String address);
 }

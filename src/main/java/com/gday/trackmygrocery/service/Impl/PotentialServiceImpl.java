@@ -25,19 +25,18 @@ public class PotentialServiceImpl implements PotentialService {
     }
 
     @Override
-    public int deleteById(int id) {
+    public int deleteByPotentialId(int id) {
         return potentialMapper.deleteById(id);
     }
 
+    // clear all user
     @Override
-    public int updateListByUserId(int id) {
+    public int deleteAllPotentialByUserId(int id) {
         potentialMapper.deleteByUserId(id);
-        List<Item> items = itemMapper.selectPotentialList(id);
-        for(Item item : items){
-            potentialMapper.insertItemAsPotential(item);
-        }
         return 1;
     }
+
+    //clear single potential item >> potential_id
 
     @Override
     public int updateStatusById(String status, int id) {

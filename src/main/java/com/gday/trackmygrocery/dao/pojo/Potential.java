@@ -10,4 +10,5 @@ public class Potential {
     private String name;
     private String picture;
     private String status;
+    private String category;
 }

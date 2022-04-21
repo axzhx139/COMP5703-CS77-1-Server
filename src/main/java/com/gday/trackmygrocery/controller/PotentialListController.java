@@ -1,8 +1,6 @@
 package com.gday.trackmygrocery.controller;
 
-import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.dao.pojo.Potential;
-import com.gday.trackmygrocery.dao.pojo.Recipe;
 import com.gday.trackmygrocery.service.PotentialService;
 import com.gday.trackmygrocery.utils.LogUtils;
 import io.swagger.annotations.ApiOperation;
@@ -36,17 +34,17 @@ public class PotentialListController {
 
     @GetMapping("/delete/{id}")
     @ApiOperation("delete the item from potential item list using potential id")
-    public int deletePotentialItemById(@PathVariable("id") int id) {
+    public int deletePotentialItemByPotentialId(@PathVariable("id") int id) {
         logger.info("deletePotentialItemById<<<(id: int): " + id);
-        int res = potentialService.deleteById(id);
+        int res = potentialService.deleteByPotentialId(id);
         logger.info("deletePotentialItemById>>>" + res);
         return res;
     }
 
-    @GetMapping("/update/{id}")
-    public int updatePotentialListByUserId(@PathVariable("id") int id) {
+    @GetMapping("/deleteAll/{id}")
+    public int deleteAllPotentialByUserId(@PathVariable("id") int id) {
         logger.info("updatePotentialListByUserId<<<(id: int): " + id);
-        int res = potentialService.updateListByUserId(id);
+        int res = potentialService.deleteAllPotentialByUserId(id);
         logger.info("updatePotentialListByUserId>>>" + res);
         return res;
     }

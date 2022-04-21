@@ -9,9 +9,9 @@ public interface PotentialService {
 
     List<Potential> getPotentialList(int id);
 
-    int deleteById(int id);
+    int deleteByPotentialId(int id);
 
-    int updateListByUserId(int id);
+    int deleteAllPotentialByUserId(int id);
 
     int updateStatusById(String status, int id);
 

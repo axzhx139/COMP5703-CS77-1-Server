@@ -21,9 +21,9 @@ public class RecipeServiceImpl implements RecipeService {
     final OkHttpClient client = new OkHttpClient();
     private static final String recipeURL = "https://api.spoonacular.com/recipes/findByIngredients";
     private static final String randomRecipeURL = "https://api.spoonacular.com/recipes/random";
-//  private static final String apiKey = "f2e928acc90e458fadc5bcba6c45e251";
-    private static final String apiKey = "d366b3791d9048f5ab9c741361b0e126";
-    private static final String RECIPE_NUM = "4";
+    private static final String apiKey1 = "f2e928acc90e458fadc5bcba6c45e251";
+    private static final String apiKey2 = "d366b3791d9048f5ab9c741361b0e126";
+    private static final String RECIPE_NUM = "12";
     private static final int CHECK_EXPIRE_NUM = 5;
 
     @Autowired
@@ -33,7 +33,7 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getRecipeById(int id) {
         List<Item> items = itemService.getInStockItemById(id);
         Map<String,String> map = new HashMap<>();
-        map.put("apiKey",apiKey);
+        map.put("apiKey",apiKey1);
         map.put("ingredients",getItemList(items));
         map.put("number",RECIPE_NUM);
         String finalUrl = UrlUtils.appendParams(recipeURL, map);
@@ -41,7 +41,13 @@ public class RecipeServiceImpl implements RecipeService {
         try {
             return JSON.parseArray(run(finalUrl), Recipe.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                map.put("apiKey",apiKey2);
+                finalUrl = UrlUtils.appendParams(recipeURL, map);
+                return JSON.parseArray(run(finalUrl), Recipe.class);
+            }catch (Exception e1){
+                e.printStackTrace();
+            }
         }
         return null;
     }
@@ -49,13 +55,20 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getRandomRecipe() {
         Map<String,String> map = new HashMap<>();
-        map.put("apiKey",apiKey);
+        map.put("apiKey",apiKey1);
         map.put("number",RECIPE_NUM);
         String finalUrl = UrlUtils.appendParams(randomRecipeURL, map);
         try {
             return (List<Recipe>) JSON.parseObject(run(finalUrl)).get("recipes");
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                map.put("apiKey",apiKey2);
+                finalUrl = UrlUtils.appendParams(randomRecipeURL, map);
+                return (List<Recipe>) JSON.parseObject(run(finalUrl)).get("recipes");
+            }catch (Exception e1){
+                e.printStackTrace();
+            }
+
         }
         return null;
 
@@ -66,7 +79,7 @@ public class RecipeServiceImpl implements RecipeService {
         List<Item> items = checkExpire(itemService.getInStockItemById(id));
         if(items.size()==0) return new ArrayList<>();
         Map<String,String> map = new HashMap<>();
-        map.put("apiKey",apiKey);
+        map.put("apiKey",apiKey1);
         map.put("ingredients",getItemList(items));
         map.put("number",RECIPE_NUM);
         String finalUrl = UrlUtils.appendParams(recipeURL, map);
@@ -74,7 +87,14 @@ public class RecipeServiceImpl implements RecipeService {
         try {
             return JSON.parseArray(run(finalUrl), Recipe.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                map.put("apiKey",apiKey2);
+                finalUrl = UrlUtils.appendParams(recipeURL, map);
+                return JSON.parseArray(run(finalUrl), Recipe.class);
+            }catch (Exception e1){
+                e.printStackTrace();
+            }
+//            e.printStackTrace();
         }
         return null;
     }

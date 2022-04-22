@@ -45,7 +45,7 @@ public interface ItemMapper {
             "exp_date, add_method, detail,status,category," +
             "remind_time,other_detail,u_id, isConsumed) values(#{name},#{addDate},#{conDate}" +
             ",#{expDate},#{addMethod},#{detail},#{status}," +
-            "#{category},#{remindTime},#{otherDetail},#{uId}, 1)")
+            "#{category},#{remindTime},#{otherDetail},#{uId}, 0)")
     @Options(useGeneratedKeys = true, keyProperty = "itemId", keyColumn = "item_id")
     int insertItem(Item item);
 
@@ -55,7 +55,7 @@ public interface ItemMapper {
             " item_id=#{itemId}")
     int updateItem(Item item);
 
-    @Update("update mg_item SET status=#{newStatus} where item_id=#{itemId}")
+    @Update("update mg_item SET status=#{newStatus}, isConsumed = 1 where item_id=#{itemId}")
     int updateStatus(String newStatus, int itemId);
 
     @Select("select status from mg_item where item_id=#{itemId}")
@@ -82,7 +82,7 @@ public interface ItemMapper {
     @Update("update mg_item SET picture = #{s} where item_id = #{id}")
     int storePictureUrlByItemId(int id, String s);
 
-    @Update("update mg_item SET isConsumed = -1 where exp_Date < #{date} and isConsumed = 0")
+    @Update("update mg_item SET status=expired, isConsumed = -1 where exp_Date < #{date} and isConsumed = 0")
     int expireItem(Date date);
 
     @Update("update mg_item SET unread = false where remind_Time < #{date}")

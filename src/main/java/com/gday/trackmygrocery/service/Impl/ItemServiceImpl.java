@@ -109,7 +109,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public int updateStatus(String newStatus, int itemId) {
         try{
-            return itemMapper.updateStatus(newStatus,itemId);
+            if (newStatus != null && newStatus.equals("consume")) {
+                return itemMapper.consumeItem(newStatus,itemId);
+            } else {
+                return -2;
+            }
         }catch(Exception e){
             return -1;
         }

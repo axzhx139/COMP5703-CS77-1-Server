@@ -23,6 +23,12 @@ public interface ItemMapper {
     @Select("select * from mg_item where u_id = #{id} and isConsumed=0")
     List<Item> selectInStockItemByUserId(int id);
 
+    @Select("select count(*) from mg_item where u_id = #{id}")
+    Integer selectItemCountByUserId(int id);
+
+    @Select("select count(*) from mg_item where u_id = #{id} and isConsumed=0")
+    Integer selectInStockItemCountByUserId(int id);
+
     @Select("select * from mg_item where u_id = #{id} and isConsumed!=0")
     List<Item> selectHistoryItemByUserId(int id);
 

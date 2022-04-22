@@ -3,12 +3,18 @@ package com.gday.trackmygrocery.service.Impl;
 import com.alibaba.fastjson.JSON;
 import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.dao.pojo.Recipe;
+import com.gday.trackmygrocery.dao.pojo.RecipeCache;
+import com.gday.trackmygrocery.mapper.ItemMapper;
+import com.gday.trackmygrocery.mapper.UserMapper;
 import com.gday.trackmygrocery.service.ItemService;
 import com.gday.trackmygrocery.service.RecipeService;
+import com.gday.trackmygrocery.utils.LogUtils;
 import com.gday.trackmygrocery.utils.UrlUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +31,22 @@ public class RecipeServiceImpl implements RecipeService {
     private static final String apiKey2 = "d366b3791d9048f5ab9c741361b0e126";
     private static final String RECIPE_NUM = "12";
     private static final int CHECK_EXPIRE_NUM = 5;
+    final Logger logger = LoggerFactory.getLogger(getClass());
+    final LogUtils logUtils = LogUtils.getInstance();
+    private static Map<Integer, RecipeCache> recipeCacheMap = new HashMap<>();
 
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     @Override
     public List<Recipe> getRecipeById(int id) {
+        if (recipeCacheMap.containsKey(id) && compareCache(recipeCacheMap.get(id), id)) {
+            logger.info("getRecipeById---Using Cache!");
+            return recipeCacheMap.get(id).getRecipes();
+        }
         List<Item> items = itemService.getInStockItemById(id);
         Map<String,String> map = new HashMap<>();
         map.put("apiKey",apiKey1);
@@ -38,19 +54,40 @@ public class RecipeServiceImpl implements RecipeService {
         map.put("number",RECIPE_NUM);
         String finalUrl = UrlUtils.appendParams(recipeURL, map);
 //        System.out.println(finalUrl);
+        List<Recipe> res;
+        RecipeCache recipeCache = new RecipeCache();
+        recipeCache.setInStockCount(itemMapper.selectInStockItemCountByUserId(id));
+        recipeCache.setItemCount(itemMapper.selectItemCountByUserId(id));
         try {
-            return JSON.parseArray(run(finalUrl), Recipe.class);
+            res = JSON.parseArray(run(finalUrl), Recipe.class);
+            recipeCache.setRecipes(res);
+            recipeCacheMap.put(id, recipeCache);
+            return res;
         } catch (IOException e) {
             try {
                 map.put("apiKey",apiKey2);
                 finalUrl = UrlUtils.appendParams(recipeURL, map);
-                return JSON.parseArray(run(finalUrl), Recipe.class);
+                res = JSON.parseArray(run(finalUrl), Recipe.class);
+                recipeCache.setRecipes(res);
+                recipeCacheMap.put(id, recipeCache);
+                return res;
             }catch (Exception e1){
                 e.printStackTrace();
             }
         }
         return null;
     }
+
+    private boolean compareCache(RecipeCache recipeCache, int userID) {
+        int inStock = itemMapper.selectInStockItemCountByUserId(userID);
+        int item = itemMapper.selectItemCountByUserId(userID);
+        if (inStock == recipeCache.getInStockCount() && item == recipeCache.getItemCount()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public List<Recipe> getRandomRecipe() {

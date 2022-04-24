@@ -38,7 +38,7 @@ public interface ItemMapper {
     @Select("select * from mg_item where u_id = #{id} and isConsumed=-1")
     List<Item> selectExpiredItemByUserId(int id);
 
-    @Select("select remindTime from mg_item where itemId = #{itemId}")
+    @Select("select remind_Time from mg_item where item_Id = #{itemId}")
     Date selectRemindTimeByItemId(int itemId);
 
     @Select("select * from mg_item where item_id = #{id}")
@@ -57,7 +57,7 @@ public interface ItemMapper {
 
     @Update("update mg_item SET name=#{name},add_date=#{addDate},con_date=#{conDate}" +
             ",exp_date=#{expDate},add_method=#{addMethod},detail=#{detail},status=#{status}," +
-            "category=#{category},remind_time=#{remindTime},other_detail=#{otherDetail},u_Id=#{uId} where" +
+            "category=#{category},remind_time=#{remindTime},other_detail=#{otherDetail} where" +
             " item_id=#{itemId}")
     int updateItem(Item item);
 

@@ -102,6 +102,7 @@ public class ItemServiceImpl implements ItemService {
             }
             return itemMapper.updateItem(item);
         }catch(Exception e){
+            e.printStackTrace();
             return -1;
         }
     }

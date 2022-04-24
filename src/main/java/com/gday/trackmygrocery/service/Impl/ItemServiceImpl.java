@@ -110,7 +110,9 @@ public class ItemServiceImpl implements ItemService {
     public int updateStatus(String newStatus, int itemId) {
         try{
             if (newStatus != null && newStatus.equals("consume")) {
-                return itemMapper.consumeItem(newStatus,itemId);
+                Date date = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                return itemMapper.consumeItem(newStatus,itemId, dateFormat.format(date));
             } else {
                 return -2;
             }

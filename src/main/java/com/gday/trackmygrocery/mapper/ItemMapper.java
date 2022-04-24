@@ -61,8 +61,8 @@ public interface ItemMapper {
             " item_id=#{itemId}")
     int updateItem(Item item);
 
-    @Update("update mg_item SET status=#{newStatus}, isConsumed = 1 where item_id=#{itemId}")
-    int consumeItem(String newStatus, int itemId);
+    @Update("update mg_item SET status=#{newStatus}, isConsumed = 1, con_date = #{date} where item_id=#{itemId}")
+    int consumeItem(String newStatus, int itemId, String date);
 
     @Select("select status from mg_item where item_id=#{itemId}")
     String selectStatusByItemId(int itemId);

@@ -111,6 +111,16 @@ public class ItemServiceImpl implements ItemService {
     public int updateStatus(String newStatus, int itemId) {
         try{
             if (newStatus != null && newStatus.equals("consume")) {
+                if (itemMapper.checkQuantity(itemId) > 1) {
+                    if (itemMapper.consumeOne(itemId) == 1) {
+                        logger.info("updateStatus---itemID: " + itemId + "quantity - 1");
+                        return 1;
+                    } else {
+                        logger.error("updateStatus---itemID: " + itemId + "quantity - 1 FAILED");
+                        return -2;
+                    }
+                }
+
                 Date date = new Date();
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                 return itemMapper.consumeItem(newStatus,itemId, dateFormat.format(date));

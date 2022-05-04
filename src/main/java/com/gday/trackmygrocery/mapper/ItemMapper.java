@@ -49,15 +49,15 @@ public interface ItemMapper {
 
     @Insert("insert into mg_item(name,add_date,con_date," +
             "exp_date, add_method, detail,status,category," +
-            "remind_time,other_detail,u_id, isConsumed) values(#{name},#{addDate},#{conDate}" +
+            "remind_time,other_detail,u_id, isConsumed, quantity) values(#{name},#{addDate},#{conDate}" +
             ",#{expDate},#{addMethod},#{detail},#{status}," +
-            "#{category},#{remindTime},#{otherDetail},#{uId}, 0)")
+            "#{category},#{remindTime},#{otherDetail},#{uId}, 0, #{quantity})")
     @Options(useGeneratedKeys = true, keyProperty = "itemId", keyColumn = "item_id")
     int insertItem(Item item);
 
     @Update("update mg_item SET name=#{name},add_date=#{addDate},con_date=#{conDate}" +
             ",exp_date=#{expDate},add_method=#{addMethod},detail=#{detail},status=#{status}," +
-            "category=#{category},remind_time=#{remindTime},other_detail=#{otherDetail} where" +
+            "category=#{category},remind_time=#{remindTime},other_detail=#{otherDetail}, quantity=#{quantity} where" +
             " item_id=#{itemId}")
     int updateItem(Item item);
 
@@ -93,4 +93,10 @@ public interface ItemMapper {
 
     @Update("update mg_item SET unread = false where remind_Time < #{date}")
     int readNotification(Date date);
+
+    @Select("select quantity from mg_item where item_id = #{itemId}")
+    Integer checkQuantity(int itemId);
+
+    @Update("update mg_item SET quantity = quantity - 1 where item_id = #{itemId}")
+    int consumeOne(int itemId);
 }

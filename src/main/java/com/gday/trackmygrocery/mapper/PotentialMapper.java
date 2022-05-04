@@ -21,8 +21,8 @@ public interface PotentialMapper {
     @Delete("delete from mg_potential where u_id = #{id}")
     void deleteByUserId(int id);
 
-    @Insert("insert into mg_potential(u_id,item_id,name,picture) " +
-            "values(#{uId},#{itemId}, #{name}, #{picture})")
+    @Insert("insert into mg_potential(u_id,item_id,name,picture,category) " +
+            "values(#{uId},#{itemId}, #{name}, #{picture},#{category})")
     @Options(useGeneratedKeys = true, keyProperty = "pId", keyColumn = "p_id")
     void insertItemAsPotential(Item item);
 
@@ -31,5 +31,8 @@ public interface PotentialMapper {
 
     @Select("select * from mg_potential where item_id = #{itemId} and u_id = #{uId}")
     Potential selectPotential(Item item);
+
+    @Delete("delete from mg_potential where u_id=#{userId}")
+    int deletePotentialByUserId(int userId);
 
 }

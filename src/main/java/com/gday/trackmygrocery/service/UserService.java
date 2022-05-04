@@ -46,4 +46,6 @@ public interface UserService {
     int sendChageCode(String email);
 
     int changePasswordByVcode(ChangeCodeParam changeCodeParam);
+
+    int deleteUserAccount(int userId);
 }

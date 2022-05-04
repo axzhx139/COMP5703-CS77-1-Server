@@ -4,10 +4,12 @@ import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.dao.pojo.SpecialUser;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.mapper.ItemMapper;
+import com.gday.trackmygrocery.mapper.PotentialMapper;
 import com.gday.trackmygrocery.mapper.UserMapper;
 import com.gday.trackmygrocery.service.UserService;
 import com.gday.trackmygrocery.utils.EmailUtils;
 import com.gday.trackmygrocery.utils.MailUtils;
+import com.gday.trackmygrocery.utils.PictureUtils;
 import com.gday.trackmygrocery.vo.Profile;
 import com.gday.trackmygrocery.vo.params.ChangeCodeParam;
 import com.gday.trackmygrocery.vo.params.LoginParam;
@@ -17,9 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -33,6 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ItemMapper itemMapper;
+
+    @Autowired
+    private PotentialMapper potentialMapper;
+
+    @Autowired
+    private PictureUtils pictureUtils;
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -212,14 +218,13 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public int sendChageCode(String email) {
         if (userMapper.checkEmailExist(email.trim()) == 1) {
             if (userMapper.checkVerificationCodeStatus(email) == 1) {
                 String code = MailUtils.generateVerificationCode();
                 int setVcode = userMapper.setVerificationCode(email, code);
-                if ( setVcode == 1) {
+                if (setVcode == 1) {
                     MailUtils mail = MailUtils.getVerificationMail(email, code);
                     int res = emailUtils.sendMailHtml(mail);
                     if (res == 1) {
@@ -233,7 +238,7 @@ public class UserServiceImpl implements UserService {
                     //更新资料库失败
                     return -3;
                 }
-            }else {
+            } else {
                 //未验证
                 return -4;
             }
@@ -264,5 +269,36 @@ public class UserServiceImpl implements UserService {
             //email不存在
             return -1;
         }
+    }
+
+    @Override
+    public int deleteUserAccount(int userId) {
+        if (userId != 117&&userId!=115&&userId!=1&&userId!=2) {
+//            String userAvatarPath = userMapper.selectAvatarById(userId);
+//            int resDeleteUserAvatar = pictureUtils.deletePictureByPath(userAvatarPath);
+//            List<String> pathList = itemMapper.selectPictureListByUserId(userId);
+//            int[] resDeleteItemPictureArray = new int[pathList.size()];
+//            for (int i = 0; i < pathList.size(); i++) {
+//                resDeleteItemPictureArray[i] = pictureUtils.deletePictureByPath(pathList.get(i));
+//            }
+//            int resDeleteUserAccount = userMapper.deleteUserAccountByUserId(userId);
+//            int resDeletePotential = potentialMapper.deletePotentialByUserId(userId);
+//            int resDeleteItem = itemMapper.deleteItemByUserId(userId);
+//
+//            if (resDeleteUserAvatar > 0) {
+//                for (int j : resDeleteItemPictureArray) {
+//                    if (j == -1) {
+//                        return -1;
+//                    }
+//                }
+//                if (resDeleteItem > 0 || resDeletePotential > 0 || resDeleteUserAccount > 0) {
+//                    return 1;
+//                }
+//            }
+//            return -1;
+            return 1;
+        }
+
+        return -2;
     }
 }

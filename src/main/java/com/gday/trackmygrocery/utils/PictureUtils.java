@@ -1,10 +1,11 @@
 package com.gday.trackmygrocery.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
-
+@Component
 public class PictureUtils {
     private final String PATH = "/home/ubuntu/COMP5703/mygrocery/";
     private volatile static PictureUtils pictureUtils;
@@ -81,6 +82,16 @@ public class PictureUtils {
             }
         }
 
+    }
+
+    public int deletePictureByPath(String path){
+        File file=new File(path);
+        if (file.exists()&&!path.contains("default")){
+            file.delete();
+            return 1;
+        }else {
+            return -1;
+        }
     }
 }
 

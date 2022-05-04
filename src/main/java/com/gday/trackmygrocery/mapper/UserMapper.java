@@ -90,4 +90,9 @@ public interface UserMapper {
 
      @Select("select name from mg_user where u_id = #{id}")
      String getUserName(int id);
+
+     @Delete("delete from mg_user where u_id=#{userId}")
+     int deleteUserAccountByUserId(int userId);
+
+
 }

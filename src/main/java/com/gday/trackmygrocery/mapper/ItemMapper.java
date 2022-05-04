@@ -99,4 +99,10 @@ public interface ItemMapper {
 
     @Update("update mg_item SET quantity = quantity - 1 where item_id = #{itemId}")
     int consumeOne(int itemId);
+
+    @Select("select picture from mg_item where u_id=#{userId}")
+    List<String> selectPictureListByUserId(int userId);
+
+    @Delete("delete from mg_item where u_id = #{userId}")
+    int deleteItemByUserId(int userId);
 }

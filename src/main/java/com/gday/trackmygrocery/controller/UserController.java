@@ -191,6 +191,15 @@ public class UserController {
         return res;
     }
 
+    @PostMapping("/deleteUserAccount/{userId}")
+    @ApiOperation("Delete user account")
+    public int deleteUserAccount(@PathVariable("userId")int userId){
+        logger.info("deleteUserAccount<<<(userId: int): "+userId);
+        int res= userService.deleteUserAccount(userId);
+        logger.info("deleteUserAccount>>>"+res);
+        return res;
+    }
+
     @PostMapping("/avatar/update/{id}")
     @ApiOperation("Update user's avatar")
     public int updateAvatar(@PathVariable("id") int id, @RequestParam("picture") MultipartFile file) {
@@ -237,4 +246,6 @@ public class UserController {
         logger.info("getAvatar>>>" + res);
         return null;
     }
+
+
 }

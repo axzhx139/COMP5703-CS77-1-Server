@@ -93,6 +93,21 @@ public class PictureUtils {
             return -1;
         }
     }
+
+    public String getDefaultPicturePath(String type){
+        String defaultPath;
+        if (type!=null) {
+            defaultPath= PATH + type.substring(0, 1).toUpperCase() + type.substring(1) + "/" + type + "_default.png";
+            File file=new File(defaultPath);
+            if(file.exists()) {
+                return defaultPath;
+            }else{
+                return null;
+            }
+        }else {
+            return null;
+        }
+    }
 }
 
 

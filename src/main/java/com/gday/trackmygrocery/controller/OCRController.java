@@ -23,66 +23,160 @@ public class OCRController {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
     final LogUtils logUtils = LogUtils.getInstance();
-    public static final String YEAR_REGEX = ".*202[012345].*";
+    public static final String YEAR_REGEX = "(.*)(202[012345])(.*)";
+    public static final String DAY_REGEX = "(.*)([0123]{1}[0123456789]{1})(.*)";
+    public static final String DAYMONTH_REGEX = "(.*)([0123]{1}[0123456789]{1})([01]{1}[0123456789]{1})(.*)";
+    public static final String MONTHDAY_REGEX = "(.*)([01]{1}[0123456789]{1})([0123]{1}[0123456789]{1})(.*)";
+    public static final String YMD_REGEX = "(.*)(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)(.*)";
+    public static final String[] MONTH31 = {"1", "01", "3", "03", "5", "05", "7", "07", "8", "08", "10", "12"};
+    public static final String[] MONTH30 = {"4", "04", "6", "06", "9", "09", "11"};
+    public static final String[] MONTH29 = {"2", "02"};
 
-    private static Map<String, Integer> month = new HashMap<>();
+
+    private static Map<String, String> month = new HashMap<>();
     static {
-        month.put("JAN", 1);
-        month.put("FEB", 2);
-        month.put("MAR", 3);
-        month.put("APR", 4);
-        month.put("MAY", 5);
-        month.put("JUN", 6);
-        month.put("JUL", 7);
-        month.put("AUG", 8);
-        month.put("SEP", 9);
-        month.put("OCT", 10);
-        month.put("NOV", 11);
-        month.put("DEC", 12);
+        month.put("JAN", "01");
+        month.put("FEB", "02");
+        month.put("MAR", "03");
+        month.put("APR", "04");
+        month.put("MAY", "05");
+        month.put("JUN", "06");
+        month.put("JUL", "07");
+        month.put("AUG", "08");
+        month.put("SEP", "09");
+        month.put("OCT", "10");
+        month.put("NOV", "11");
+        month.put("DEC", "12");
 
     }
 
     @GetMapping("/transferDate/{str}")
     public String transferDate(@PathVariable("str") String str) {
         logger.info("transferDate<<<(str: String): " + str);
-//        String res = "";
-//        String[] list = str.split(",,");
-//        String temp = null;
-//
-//        int monthInt = -1;
-//        int yearInt = -1;
-//        for (String s : list) {
-//            String m = null;
-//            try {
-//                m = Arrays.stream(month.keySet().toArray(new String[0])).parallel().filter(s.toUpperCase(Locale.ROOT)::contains).findAny().get();
-//            } catch (NoSuchElementException e) {
-//
-//            }
-//            if (m != null && m.length() != 0) {
-//                monthInt = month.get(m);
-//                //contains month
-//                temp = s;
-//                if (Pattern.matches(YEAR_REGEX, s)) {
-//                    Pattern r = Pattern.compile("(.*)(202[012345])(.*)");
-//                    Matcher mm = r.matcher(s);
-//                    System.out.println(r.matcher(s).group(1));
-//                    //yearInt = new Integer(r.matcher(s).group(2));
-//                    System.out.println(yearInt);
-//                }
-//                break;
-//            } else if (Pattern.matches(YEAR_REGEX, s)) {
-//                System.out.println("find year");
-//            }
-//        }
-//
-//        System.out.println(month.size());
-//
-//
-//
-//        logger.info("transferDate>>>" + res);
-        return "2022-05-18";
+        String res = "";
+        String[] list = str.split(",,");
+        String temp = null;
+
+        String monthStr = null;
+        String yearStr = null;
+        String dayStr = null;
+        for (String s : list) {
+            Matcher matcherFirst = Pattern.compile(YMD_REGEX).matcher(s);
+            // 判断是否可以找到匹配正则表达式的字符
+            if (matcherFirst.find()) {
+                logger.info("transferDate>>>" + matcherFirst.group(2));
+                return matcherFirst.group(2);
+            }
+            String m = null;
+            try {
+                m = Arrays.stream(month.keySet().toArray(new String[0])).parallel().filter(s.toUpperCase(Locale.ROOT)::contains).findAny().get();
+            } catch (NoSuchElementException e) {
+
+            }
+            if (m != null && m.length() != 0) {
+                monthStr = month.get(m);
+                s.replace(m, "");
+                //contains month
+                temp = s;
+
+
+                Matcher matcher = Pattern.compile(YEAR_REGEX).matcher(s);
+                // 判断是否可以找到匹配正则表达式的字符
+                if (matcher.find()) {
+                    // 将匹配当前正则表达式的字符串即文件名称进行赋值
+                    yearStr = matcher.group(2);
+                    logger.info("year is: " + yearStr);
+                    s.replace(yearStr, "");
+                }
+                matcher = Pattern.compile(DAY_REGEX).matcher(s);
+                if (matcher.find()) {
+                    // 将匹配当前正则表达式的字符串即文件名称进行赋值
+                    dayStr = matcher.group(2);
+                    logger.info("day is: " + dayStr);
+                    s.replace(dayStr, "");
+                }
+                res = yearStr + "-" + monthStr + "-" + dayStr;
+                logger.info("transferDate>>>" + res);
+                return res;
+            } else if (Pattern.matches(YEAR_REGEX, s)) {
+                logger.info("year is: " + yearStr);
+                s.replace(yearStr, "");
+                Matcher matcherDM = Pattern.compile(DAYMONTH_REGEX).matcher(s);
+                Matcher matcherMD = Pattern.compile(MONTHDAY_REGEX).matcher(s);
+                if (matcherDM.find()) {
+                    dayStr = matcherDM.group(2);
+                    monthStr = matcherDM.group(3);
+                    if (checkDM(dayStr, monthStr)) {
+                        res = yearStr + "-" + monthStr + "-" + dayStr;
+                        logger.info("transferDate>>>" + res);
+                        return res;
+                    } else {
+                        dayStr = null;
+                        monthStr = null;
+                    }
+                }
+                if (matcherMD.find()) {
+                    dayStr = matcherMD.group(3);
+                    monthStr = matcherMD.group(2);
+                    if (checkDM(dayStr, monthStr)) {
+                        res = yearStr + "-" + monthStr + "-" + dayStr;
+                        logger.info("transferDate>>>" + res);
+                        return res;
+                    } else {
+                        dayStr = null;
+                        monthStr = null;
+                    }
+                }
+            } else {
+                continue;
+            }
+        }
+        res = "" + yearStr + "-" + monthStr + "-" + dayStr;
+        logger.info("transferDate>>>" + res);
+        return res;
     }
 
+    private boolean checkDM(String dayStr, String monthStr) {
+        int d = -1;
+        try {
+            d = Integer.valueOf(dayStr).intValue();
+        } catch (NumberFormatException e) {
+            logger.error("checkDM---input day: " + dayStr + "month: " + monthStr + "have invalid dayStr!");
+            return false;
+        }
+        if (d < 1 || d > 31) {
+            logger.info("checkDM---input day: " + dayStr + "month: " + monthStr + "have invalid dayStr!");
+            return false;
+        }
+
+        String m = null;
+        try {
+            m = Arrays.stream(MONTH31).parallel().filter(monthStr::equals).findAny().get();
+        } catch (NoSuchElementException e) {
+
+        }
+        if (m != null && m.length() != 0) {
+            return true;
+        }
+        try {
+            m = Arrays.stream(MONTH30).parallel().filter(monthStr::equals).findAny().get();
+        } catch (NoSuchElementException e) {
+
+        }
+        if (m != null && m.length() != 0 && d < 31) {
+            return true;
+        }
+        try {
+            m = Arrays.stream(MONTH29).parallel().filter(monthStr::equals).findAny().get();
+        } catch (NoSuchElementException e) {
+            logger.error("checkDM---input day: " + dayStr + "month: " + monthStr + "have invalid monStr!");
+            return false;
+        }
+        if (m != null && m.length() != 0 && d < 30) {
+            return true;
+        }
+        return false;
+    }
 
 
 }

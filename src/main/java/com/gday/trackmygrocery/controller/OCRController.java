@@ -57,9 +57,9 @@ public class OCRController {
         String[] list = str.split(",,");
         String temp = null;
 
-        String monthStr = null;
-        String yearStr = null;
-        String dayStr = null;
+        String monthStr = "";
+        String yearStr = "";
+        String dayStr = "";
         for (String s : list) {
             Matcher matcherFirst = Pattern.compile(YMD_REGEX).matcher(s);
             // 判断是否可以找到匹配正则表达式的字符
@@ -111,8 +111,8 @@ public class OCRController {
                         logger.info("transferDate>>>" + res);
                         return res;
                     } else {
-                        dayStr = null;
-                        monthStr = null;
+                        dayStr = "";
+                        monthStr = "";
                     }
                 }
                 if (matcherMD.find()) {
@@ -123,8 +123,8 @@ public class OCRController {
                         logger.info("transferDate>>>" + res);
                         return res;
                     } else {
-                        dayStr = null;
-                        monthStr = null;
+                        dayStr = "";
+                        monthStr = "";
                     }
                 }
             } else {

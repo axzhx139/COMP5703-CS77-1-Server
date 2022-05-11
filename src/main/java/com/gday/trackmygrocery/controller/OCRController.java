@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +30,11 @@ public class OCRController {
     public static final String DAYMONTH_REGEX = "(.*)([0123]{1}[0123456789]{1})([01]{1}[0123456789]{1})(.*)";
     public static final String MONTHDAY_REGEX = "(.*)([01]{1}[0123456789]{1})([0123]{1}[0123456789]{1})(.*)";
     public static final String YMD_REGEX = "(.*)(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)(.*)";
+    public static final String YMD_REGEX_TEST = "(.*)(?:(?!0000|0[0-9]{3})[0-9]{4}-" +
+            "(?:(?:0[1-9]|1[0-2])" +
+            "-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)(.*)";
+    public static final String DMY_REGEX = "(.*)(?:(?!0000)[0-9]{4}(.*)";
+
     public static final String[] MONTH31 = {"1", "01", "3", "03", "5", "05", "7", "07", "8", "08", "10", "12"};
     public static final String[] MONTH30 = {"4", "04", "6", "06", "9", "09", "11"};
     public static final String[] MONTH29 = {"2", "02"};
@@ -177,6 +184,4 @@ public class OCRController {
         }
         return false;
     }
-
-
 }

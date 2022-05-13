@@ -38,62 +38,60 @@ class ItemServiceImplTest {
         assertEquals(itemMapper.selectItemById(310), itemService.getItemById(310));
     }
 
-//    @Test
-//    void deleteItemById() {
-//        assertEquals(0, itemService.deleteItemById(33));
-//    }
+    @Test
+    void deleteItemById() {
+        assertEquals(0, itemService.deleteItemById(33));
+    }
 
-//    @Test
-//    void insertItem() {
-//        Item item = new Item();
-//        itemService.insertItem(item);
-//    }
+    @Test
+    void insertItem() {
+        Item item = new Item();
+        itemService.insertItem(item);
+    }
 
-//    @Test
-//    void updateItem() {
-//        Item item = new Item();
-//        item.setItemId(210);
-//        assertEquals(-1, itemService.insertItem(item));
-//    }
+    @Test
+    void updateItem() {
+        Item item = new Item();
+        item.setItemId(210);
+        assertEquals(-1, itemService.insertItem(item));
+    }
 
-//    @Test
-//    void updateStatus() {
-//        assertEquals(0, itemService.updateStatus("consumed",210));
-//    }
+    @Test
+    void updateStatus() {
+        assertEquals(-2, itemService.updateStatus("consumed",1));
+    }
 
-//    @Test
-//    void getStatusByItemId() {
-//        assertEquals(null, itemService.getStatusByItemId(210));
-//    }
+    @Test
+    void getStatusByItemId() {
+        assertEquals(null, itemService.getStatusByItemId(210));
+    }
 
-//    @Test
-//    void updateAllRemindDateByUserId() {
-//        assertEquals(1, itemService.updateAllRemindDateByUserId(1,2));
-//    }
-//
-//    @Test
-//    void getItemByRemindDate() {
-////        itemService.getItemByRemindDate(1, new Date());
-//    }
+    @Test
+    void updateAllRemindDateByUserId() {
+        assertEquals(1, itemService.updateAllRemindDateByUserId(1,2));
+    }
+
+    @Test
+    void getItemByRemindDate() {
+        itemService.getItemByRemindDate(1, new Date());
+    }
 
     @Test
     void getPictureById() {
         assertEquals(itemMapper.getPictureById(304), itemService.getPictureById(304));
     }
 
-//    @Test
-//    void getInStockItemById() {
-//        assertEquals(3, itemService.getInStockItemById(1).size());
-//    }
-//
-//    @Test
-//    void getPotentialList() {
-//        assertEquals(0, itemService.getPotentialList(1).size());
-//
-//    }
-//
-//    @Test
-//    void uploadPic() {
-//        assertEquals(1, itemService.uploadPic(1));
-//    }
+    @Test
+    void getInStockItemById() {
+        assertEquals(1, itemService.getInStockItemById(1).size());
+
+    }
+
+    @Test
+    void getPotentialList() {
+        assertEquals(1, itemService.getPotentialList(1).size());
+
+    }
+
+
 }

@@ -24,7 +24,7 @@ public class RecipeController {
     private RecipeService recipeService;
 
     @GetMapping("/{id}")
-    public List<Recipe> getRecipeById(@PathVariable("id") int id) {
+    synchronized public List<Recipe> getRecipeById(@PathVariable("id") int id) {
         logger.info("getRecipeById<<<(id: int): " + id);
         List<Recipe> res = null;
         try {
@@ -37,7 +37,7 @@ public class RecipeController {
     }
 
     @GetMapping("/expire/{id}")
-    public List<Recipe> getRecipeByIdAndExpire(@PathVariable("id") int id) {
+    synchronized public List<Recipe> getRecipeByIdAndExpire(@PathVariable("id") int id) {
         logger.info("getRecipeByIdAndExpire<<<(id: int): " + id);
         List<Recipe> res = recipeService.getRecipeByIdAndExpire(id);
         logger.info("getRecipeByIdAndExpire>>>" + logUtils.printListAsLog(res));
@@ -45,7 +45,7 @@ public class RecipeController {
     }
 
     @GetMapping("/random")
-    public List<Recipe> getRandomRecipe() {
+    synchronized public List<Recipe> getRandomRecipe() {
         logger.info("getRandomRecipe<<<[Void]");
         List<Recipe> res = recipeService.getRandomRecipe();
         logger.info("getRandomRecipe>>>" + logUtils.printListAsLog(res));

@@ -54,7 +54,7 @@ public class ItemController {
 
     @GetMapping("/user/{id}")
     @ApiOperation("Get items using user id !! added isPotential attribute")
-    public List<ItemVo> getItemsByUserId(@PathVariable("id") int id) {
+    synchronized public List<ItemVo> getItemsByUserId(@PathVariable("id") int id) {
         logger.info("getItemsByUserId<<<(id: int): " + id);
         List<Item> itemByUser = itemService.getItemByUser(id);
         List<ItemVo> itemVos = new ArrayList<>();
@@ -74,7 +74,7 @@ public class ItemController {
     //history   -1:all, -2:expire, -3:consume
     @GetMapping("/user/{id}/{sortType}")
     @ApiOperation("Get items using user id !! added isPotential attribute")
-    public List<ItemVo> getItemsByUserIdAndType(@PathVariable("id") int id, @PathVariable("sortType") int sortType) {
+    synchronized public List<ItemVo> getItemsByUserIdAndType(@PathVariable("id") int id, @PathVariable("sortType") int sortType) {
         logger.info("getItemsByUserIdAndType<<<(id: int): " + id + "(sortType: int): " + sortType);
         List<Item> itemByUser = itemService.getItemByUserAndType(id, sortType);
         List<ItemVo> itemVos = new ArrayList<>();
@@ -92,7 +92,7 @@ public class ItemController {
 
     @GetMapping("/{id}")
     @ApiOperation("Get items using item id")
-    public Item getItemById(@PathVariable("id") int id) {
+    synchronized public Item getItemById(@PathVariable("id") int id) {
         logger.info("getItemById<<<(id: int): " + id);
         Item res = itemService.getItemById(id);
         logger.info("getItemById>>>" + logUtils.printObjAsLog(res));
@@ -101,7 +101,7 @@ public class ItemController {
 
     @GetMapping("/delete/{id}")
     @ApiOperation("Delete item using item id")
-    public int deleteItemById(@PathVariable("id") int id) {
+    synchronized public int deleteItemById(@PathVariable("id") int id) {
         logger.info("deleteItemById<<<(id: int): " + id);
         int res = itemService.deleteItemById(id);
         logger.info("deleteItemById>>>" + res);
@@ -110,7 +110,7 @@ public class ItemController {
 
     @PostMapping("/insert")
     @ApiOperation("Insert item, picture would be null")
-    public int insertItem(@RequestBody Item item) {
+    synchronized public int insertItem(@RequestBody Item item) {
         logger.info("insertItem<<<(item: Item): " + logUtils.printObjAsLog(item));
         int res = itemService.insertItem(item);
         logger.info("insertItem>>>" + res);
@@ -119,7 +119,7 @@ public class ItemController {
 
     @PostMapping("/update")
     @ApiOperation("Update item except picture")
-    public int updateItem(@RequestBody Item item) {
+    synchronized public int updateItem(@RequestBody Item item) {
         logger.info("updateItem<<<(item: Item): " + logUtils.printObjAsLog(item));
         logger.info("updateItem---\n" +
                 "    数据插入成功：1\n" +
@@ -131,7 +131,7 @@ public class ItemController {
 
     @GetMapping("/update/status/{newStatus}/id/{itemId}")
     @ApiOperation("Update status using item id")
-    public int updateStatus(@PathVariable String newStatus, @PathVariable int itemId) {
+    synchronized public int updateStatus(@PathVariable String newStatus, @PathVariable int itemId) {
         logger.info("updateStatus<<<(newStatus: String): " + newStatus + "(itemId: int): " + itemId);
         int res = itemService.updateStatus(newStatus, itemId);
         logger.info("updateStatus>>>" + res);
@@ -140,7 +140,7 @@ public class ItemController {
 
     @GetMapping("/status/{itemId}")
     @ApiOperation("Get item status using item id")
-    public String getStatusByItemId(@PathVariable("itemId") int itemId) {
+    synchronized public String getStatusByItemId(@PathVariable("itemId") int itemId) {
         logger.info("getStatusByItemId<<<(itemId: int): " + itemId);
         String res = itemService.getStatusByItemId(itemId);
         logger.info("getStatusByItemId>>>" + res);
@@ -149,7 +149,7 @@ public class ItemController {
 
     @GetMapping("/update/all/{id}/{day}")
     @ApiOperation("Update all in stock items' remind date to {day} days before expire date using user id")
-    public int updateAllRemindDate(@PathVariable("id") int id, @PathVariable("day") int day) {
+    synchronized public int updateAllRemindDate(@PathVariable("id") int id, @PathVariable("day") int day) {
         logger.info("updateAllRemindDate<<<(id: int): " + id + "(day: int): " + day);
         int res = itemService.updateAllRemindDateByUserId(id, day);
         logger.info("updateAllRemindDate>>>" + res);
@@ -158,7 +158,7 @@ public class ItemController {
 
     @PostMapping("/remind")
     @ApiOperation("Get all items on the given remind date")
-    public List<Item> getItemByRemindDate(@RequestBody RemindParam remindParam) {
+    synchronized public List<Item> getItemByRemindDate(@RequestBody RemindParam remindParam) {
         logger.info("getItemByRemindDate<<<(remindParam: RemindParam): " + logUtils.printObjAsLog(remindParam));
         int id = remindParam.getUserId();
         Date date = remindParam.getRemindDate();
@@ -169,7 +169,7 @@ public class ItemController {
 
     @PostMapping("/update/picture")
     @ApiOperation("Update item's picture using item id")
-    public int updatePictureById(@RequestParam("item_id") int item_id, @RequestParam("picture") MultipartFile file) {
+    synchronized public int updatePictureById(@RequestParam("item_id") int item_id, @RequestParam("picture") MultipartFile file) {
         logger.info("updatePictureById<<<(item_id: int): " + item_id + "(picture: MultipartFile): " + logUtils.printObjAsLog(file));
         String url = pictureUtils.updatePictureToServer("item", item_id, file);
         logger.info("updatePictureById---\n" +
@@ -189,7 +189,7 @@ public class ItemController {
     @ResponseBody
     @RequestMapping(value = "/picture/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get item's picture using item id")
-    public byte[] getPictureById(@PathVariable("id") int id) {
+    synchronized public byte[] getPictureById(@PathVariable("id") int id) {
         logger.info("getPictureById<<<(id: int): " + id);
         String res = itemService.getPictureById(id);
         byte[] bytes;
@@ -204,7 +204,7 @@ public class ItemController {
     }
 
     @GetMapping("/potential/{id}")
-    public List<Item> getPotentialList(@PathVariable("id") int id) {
+    synchronized public List<Item> getPotentialList(@PathVariable("id") int id) {
         logger.info("getPotentialList<<<(id: int): " + id);
         //System.out.println("不喝牛奶3");
         List<Item> res = itemService.getPotentialList(id);

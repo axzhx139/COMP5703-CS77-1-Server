@@ -24,7 +24,7 @@ public class RankingController {
     private RankingService rankingService;
 
     @GetMapping("/topTen/{address}")
-    public List<User> getRankingTopTen(@PathVariable("address") String address) {
+    synchronized public List<User> getRankingTopTen(@PathVariable("address") String address) {
         logger.info("getRankingTopTen<<<(address: String): " + address);
         List<User> res = rankingService.getTopTenUsers(address);
         logger.info("getRankingTopTen>>>" + res);
@@ -32,7 +32,7 @@ public class RankingController {
     }
 
     @GetMapping("/previous/{id}/{address}")
-    public RankingObject getRankingPreviousOne(@PathVariable("id") int id, @PathVariable("address") String address) {
+    synchronized public RankingObject getRankingPreviousOne(@PathVariable("id") int id, @PathVariable("address") String address) {
         logger.info("getRankingPreviousOne<<<(id: int): " + id + "(address: String): " + address);
         RankingObject res = rankingService.getPreviousOne(id, address);
         logger.info("getRankingPreviousOne>>>" + res);

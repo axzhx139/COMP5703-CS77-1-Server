@@ -171,7 +171,7 @@ public class OCRController {
     }
 
     @GetMapping("/transferDate/{str}")
-    public String transferDateTest(@PathVariable("str") String str) {
+    synchronized public String transferDateTest(@PathVariable("str") String str) {
         logger.info("transferDateTest<<<(str: String): " + str);
         String res = formatDate(searchDateString(str));
         logger.info("transferDate>>>" + res);

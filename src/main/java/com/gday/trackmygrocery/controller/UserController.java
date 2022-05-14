@@ -36,7 +36,7 @@ public class UserController {
 
     @GetMapping("/get/id/{id}")
     @ApiOperation("Get User information using user id")
-    public User currentUser(@PathVariable("id") int id) {
+    synchronized public User currentUser(@PathVariable("id") int id) {
         logger.info("currentUser<<<(id: int): " + id);
         User res = userService.getUserById(id);
         logger.info("currentUser>>>" + logUtils.printObjAsLog(res));
@@ -45,7 +45,7 @@ public class UserController {
 
     @GetMapping("/get/email/{email}")
     @ApiOperation("Get User information using user email")
-    public User getUserByEmail(@PathVariable("email") String email) {
+    synchronized public User getUserByEmail(@PathVariable("email") String email) {
         logger.info("getUserByEmail<<<(email: String): " + email);
         User res = userService.getUserByEmail(email);
         logger.info("getUserByEmail>>>" + logUtils.printObjAsLog(res));
@@ -61,7 +61,7 @@ public class UserController {
      */
     @PostMapping("/register/normal")
     @ApiOperation("Insert new User except avatar")
-    public int insertUser(@RequestBody User user) {
+    synchronized public int insertUser(@RequestBody User user) {
         logger.info("insertUser<<<(user: User): " + logUtils.printObjAsLog(user));
         int res = userService.verifyUser(user);
         logger.info("insertUser---\n" + "用户不存在：-1\n" +
@@ -76,7 +76,7 @@ public class UserController {
 
     @PostMapping("/register/sendVerifyCode")
     @ApiOperation("Insert new User except avatar")
-    public int sendVerifyCode(@RequestBody User user) {
+    synchronized public int sendVerifyCode(@RequestBody User user) {
         // 0:邮箱存在, -1:数据库插入失败, -2:邮件发送异常
         logger.info("sendVerifyCode<<<(email: String): " + user.getEmail());
         int res = userService.sendVerifyCode(user.getEmail());
@@ -92,7 +92,7 @@ public class UserController {
 
     @PostMapping("/register/sendChangeCode")
     @ApiOperation("SendChangeCode") //foget password change code
-    public int sendChangeCode(@RequestBody User user) {
+    synchronized public int sendChangeCode(@RequestBody User user) {
         //equal email not equal return 0
         logger.info("sendChangeCode<<<(email: String): " + user.getEmail());
         int res = userService.sendChageCode(user.getEmail());
@@ -108,7 +108,7 @@ public class UserController {
 
     @PostMapping("register/changePasswordbyVcode")
     @ApiOperation("Change password")
-    public int changePasswordByVcode(@RequestBody ChangeCodeParam changeCodeParam) {
+    synchronized public int changePasswordByVcode(@RequestBody ChangeCodeParam changeCodeParam) {
         logger.info("changePasswordbyVcode<<<(changeCodeParam: ChangeCodeParam): " + logUtils.printObjAsLog(changeCodeParam));
         int res = userService.changePasswordByVcode(changeCodeParam);
         logger.info("changePasswordByVcode---\n" + "email不存在：-1\n" +
@@ -121,7 +121,7 @@ public class UserController {
 
     @PostMapping("/login/normal")
     @ApiOperation("Normal Login using email and pwd")
-    public int logIn(@RequestBody LoginParam loginParam) {
+    synchronized public int logIn(@RequestBody LoginParam loginParam) {
         logger.info("logIn<<<(loginParam: LoginParam): " + logUtils.printObjAsLog(loginParam));
         int res = userService.logIn(loginParam);
         logger.info("logIn>>>" + res);
@@ -130,7 +130,7 @@ public class UserController {
 
     @PostMapping("/register/special")
     @ApiOperation("insert special User using uuid")
-    public int insertSpecialUser(@RequestBody SpecialUser specialUser) {
+    synchronized public int insertSpecialUser(@RequestBody SpecialUser specialUser) {
         logger.info("insertSpecialUser<<<(specialUser: SpecialUser): " + logUtils.printObjAsLog(specialUser));
         int res = userService.insertSpecialUser(specialUser);
         logger.info("insertSpecialUser>>>" + res);
@@ -139,7 +139,7 @@ public class UserController {
 
     @GetMapping("/login/special/{uuid}")
     @ApiOperation("Special Login using uuid and pwd")
-    public int logInSpecial(@PathVariable("uuid") String uuid) {
+    synchronized public int logInSpecial(@PathVariable("uuid") String uuid) {
         logger.info("logInSpecial<<<(uuid: String): " + uuid);
         int res = userService.logInSpecial(uuid);
         logger.info("logInSpecial>>>" + res);
@@ -148,7 +148,7 @@ public class UserController {
 
     @PostMapping("/reset/pwd")
     @ApiOperation("Reset pwd, return -1 if wrong old pwd is given")
-    public int resetPwd(@RequestBody ResetPwdParam pwdParam) {
+    synchronized public int resetPwd(@RequestBody ResetPwdParam pwdParam) {
         logger.info("resetPwd<<<(pwdParam: ResetPwdParam): " + logUtils.printObjAsLog(pwdParam));
         int res = userService.resetPwdById(pwdParam);
         logger.info("resetPwd>>>" + res);
@@ -157,7 +157,7 @@ public class UserController {
 
     @GetMapping("/alert/{id}")
     @ApiOperation("Get alert state using user id")
-    public int getAlertState(@PathVariable("id") int id) {
+    synchronized public int getAlertState(@PathVariable("id") int id) {
         logger.info("getAlertState<<<(id: int): " + id);
         int res = userService.getAlertStateById(id);
         logger.info("getAlertState>>>" + res);
@@ -166,7 +166,7 @@ public class UserController {
 
     @GetMapping("/alert/change/{id}")
     @ApiOperation("Change alert state automatically")
-    public int changeAlertState(@PathVariable("id") int id) {
+    synchronized public int changeAlertState(@PathVariable("id") int id) {
         logger.info("changeAlertState<<<(id: int): " + id);
         int res = userService.changeAlertStateById(id);
         logger.info("changeAlertState>>>" + res);
@@ -175,7 +175,7 @@ public class UserController {
 
     @GetMapping("/profile/{id}")
     @ApiOperation("Get User Profile information except avatar")
-    public Profile getUserProfile(@PathVariable("id") int id) {
+    synchronized public Profile getUserProfile(@PathVariable("id") int id) {
         logger.info("getUserProfile<<<(id: int): " + id);
         Profile res = userService.getUserProfile(id);
         logger.info("getUserProfile>>>" + logUtils.printObjAsLog(res));
@@ -184,7 +184,7 @@ public class UserController {
 
     @PostMapping("/profile/update")
     @ApiOperation("Update user profile except avatar")
-    public int updateProfile(@RequestBody ProfileParam profileParam) {
+    synchronized public int updateProfile(@RequestBody ProfileParam profileParam) {
         logger.info("updateProfile<<<(profileParam: ProfileParam): " + logUtils.printObjAsLog(profileParam));
         int res = userService.updateProfile(profileParam);
         logger.info("updateProfile>>>" + res);
@@ -193,7 +193,7 @@ public class UserController {
 
     @PostMapping("/deleteUserAccount/{userId}")
     @ApiOperation("Delete user account")
-    public int deleteUserAccount(@PathVariable("userId")int userId){
+    synchronized public int deleteUserAccount(@PathVariable("userId")int userId){
         logger.info("deleteUserAccount<<<(userId: int): "+userId);
         int res= userService.deleteUserAccount(userId);
         logger.info("deleteUserAccount>>>"+res);
@@ -202,7 +202,7 @@ public class UserController {
 
     @PostMapping("/avatar/update/{id}")
     @ApiOperation("Update user's avatar")
-    public int updateAvatar(@PathVariable("id") int id, @RequestParam("picture") MultipartFile file) {
+    synchronized public int updateAvatar(@PathVariable("id") int id, @RequestParam("picture") MultipartFile file) {
         logger.info("updateAvatar<<<(file: MultipartFile): " + logUtils.printObjAsLog(file) + "(id: int): " + id);
         String url = pictureUtils.updatePictureToServer("userAvatar", id, file);
         logger.info("updateAvatar---\n" +
@@ -233,7 +233,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ApiOperation("Get user's avatar")
-    public byte[] getAvatar(@PathVariable("id") int id) {
+    synchronized public byte[] getAvatar(@PathVariable("id") int id) {
         logger.info("getAvatar<<<(id: int): " + id);
         String res = userService.getAvatarUrl(id);
         byte[] bytes;

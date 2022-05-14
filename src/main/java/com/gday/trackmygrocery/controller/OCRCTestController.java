@@ -58,7 +58,7 @@ public class OCRCTestController {
     }
 
     @GetMapping("/transferDate/{str}")
-    public String transferDate(@PathVariable("str") String str) {
+    synchronized public String transferDate(@PathVariable("str") String str) {
         logger.info("transferDate<<<(str: String): " + str);
         String res = "";
         String[] list = str.split(",,");

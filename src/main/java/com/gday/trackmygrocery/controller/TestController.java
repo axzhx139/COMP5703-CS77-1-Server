@@ -20,7 +20,7 @@ public class TestController {
     private UserService userService;
 
     @RequestMapping("/zhangjiaole")
-    public String hello() {
+    synchronized public String hello() {
         logger.info("hello>>>" + "<h1>不喝牛奶！</h1>");
         User user0 = userService.getUserById(11);
         if (user0 == null) {

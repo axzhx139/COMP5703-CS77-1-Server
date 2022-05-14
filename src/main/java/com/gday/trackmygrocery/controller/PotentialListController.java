@@ -25,7 +25,7 @@ public class PotentialListController {
     private PotentialService potentialService;
 
     @GetMapping("/{id}")
-    public List<Potential> getPotentialListByUserId(@PathVariable("id") int id) {
+    synchronized public List<Potential> getPotentialListByUserId(@PathVariable("id") int id) {
         logger.info("getPotentialListByUserId<<<(id: int): " + id);
         List<Potential> res = potentialService.getPotentialList(id);
         logger.info("getPotentialListByUserId>>>" + logUtils.printListAsLog(res));
@@ -34,7 +34,7 @@ public class PotentialListController {
 
     @GetMapping("/delete/{id}")
     @ApiOperation("delete the item from potential item list using potential id")
-    public int deletePotentialItemByPotentialId(@PathVariable("id") int id) {
+    synchronized public int deletePotentialItemByPotentialId(@PathVariable("id") int id) {
         logger.info("deletePotentialItemById<<<(id: int): " + id);
         int res = potentialService.deleteByPotentialId(id);
         logger.info("deletePotentialItemById>>>" + res);
@@ -42,7 +42,7 @@ public class PotentialListController {
     }
 
     @GetMapping("/deleteAll/{id}")
-    public int deleteAllPotentialByUserId(@PathVariable("id") int id) {
+    synchronized public int deleteAllPotentialByUserId(@PathVariable("id") int id) {
         logger.info("updatePotentialListByUserId<<<(id: int): " + id);
         int res = potentialService.deleteAllPotentialByUserId(id);
         logger.info("updatePotentialListByUserId>>>" + res);
@@ -50,7 +50,7 @@ public class PotentialListController {
     }
 
     @GetMapping("/update/status/{status}/{id}")
-    public int updatePotentialItemStatusById(@PathVariable("status") String status, @PathVariable("id") int id) {
+    synchronized public int updatePotentialItemStatusById(@PathVariable("status") String status, @PathVariable("id") int id) {
         logger.info("updatePotentialItemStatusById<<<(status: String): " + status + "(id: int): " + id);
         int res = potentialService.updateStatusById(status,id);
         logger.info("updatePotentialItemStatusById>>>" + res);
@@ -59,7 +59,7 @@ public class PotentialListController {
 
     @GetMapping("/add/{itemId}/{userId}")
     @ApiOperation("add the item to the user's potential list")
-    public int addItemToPotential(@PathVariable("itemId")int itemId, @PathVariable("userId")int userId) {
+    synchronized public int addItemToPotential(@PathVariable("itemId")int itemId, @PathVariable("userId")int userId) {
         logger.info("addItemToPotential<<<(itemId: int): " + itemId + "(userId: int): " + userId);
         int res = potentialService.addItem(itemId,userId);
         logger.info("addItemToPotential>>>" + res);
@@ -68,7 +68,7 @@ public class PotentialListController {
 
     @GetMapping("/remove/{itemId}/{userId}")
     @ApiOperation("remove the item from the potential list")
-    public int removeItemFromPotential(@PathVariable("itemId")int itemId, @PathVariable("userId")int userId) {
+    synchronized public int removeItemFromPotential(@PathVariable("itemId")int itemId, @PathVariable("userId")int userId) {
         logger.info("removeItemFromPotential<<<(itemId: int): " + itemId + "(userId: int): " + userId);
         int res = potentialService.removeItem(itemId,userId);
         logger.info("removeItemFromPotential>>>" + res);

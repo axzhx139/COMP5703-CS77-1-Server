@@ -21,7 +21,7 @@ public class FeedbackController {
 
     @PostMapping("/storeFeedback")
     @ApiOperation("Get Feedback and store the content to feedback file")
-    public String storeFeedback(@RequestBody FeedbackParam feedbackParam){
+    synchronized public String storeFeedback(@RequestBody FeedbackParam feedbackParam){
         logger.info("storeFeedback<<<(feedbackParam: FeedbackParam): " + feedbackParam);
         String res = feedbackService.storeFeedbackToTxt(feedbackParam);
         logger.info("storeFeedback>>>" + logUtils.printObjAsLog(res));

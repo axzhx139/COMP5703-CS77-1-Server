@@ -24,7 +24,7 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping("/get/user/{id}")
-    public List<Notification> getNotificationByUserId(@PathVariable("id") int id) {
+    synchronized public List<Notification> getNotificationByUserId(@PathVariable("id") int id) {
         logger.info("getNotificationByUserId<<<(id :int): "+id);
         List<Notification>res=notificationService.getNotificationByUserId(id);
         logger.info("getNotificationByUserId>>>"+logUtils.printListAsLog(res));
@@ -32,7 +32,7 @@ public class NotificationController {
     }
 
     @GetMapping("/get/{id}")
-    public ItemNotificationResult getNotificationByUser(@PathVariable("id") int id) {
+    synchronized public ItemNotificationResult getNotificationByUser(@PathVariable("id") int id) {
         logger.info("getNotificationByUser<<<(id :int): "+id);
         ItemNotificationResult res = notificationService.getNotificationByUser(id);
         logger.info("getNotificationByUser>>>"+logUtils.printObjAsLog(res));
@@ -41,7 +41,7 @@ public class NotificationController {
 
     // -1:already readed, 0: itemId not exist, 1: success
     @PostMapping("/post/{itemId}")
-    public Integer setNotificationStatus(@PathVariable("itemId") int itemId) {
+    synchronized public Integer setNotificationStatus(@PathVariable("itemId") int itemId) {
         logger.info("setNotificationStatus<<<(itemId :int): " + itemId);
         Integer res = notificationService.setNotificationStatus(itemId);
         logger.info("setNotificationStatus>>>"+(res));
@@ -50,7 +50,7 @@ public class NotificationController {
 
     // -1:already readed, 0: itemId not exist, 1: success
     @PostMapping("/postList")
-    public Integer setNotificationListStatus(@RequestBody NotificationListObj notificationListObj) {
+    synchronized public Integer setNotificationListStatus(@RequestBody NotificationListObj notificationListObj) {
         logger.info("setNotificationListStatus<<<(itemId :int): " + logUtils.printObjAsLog(notificationListObj));
         Integer res = 0;
         for (int id : notificationListObj.getItemIdList()) {

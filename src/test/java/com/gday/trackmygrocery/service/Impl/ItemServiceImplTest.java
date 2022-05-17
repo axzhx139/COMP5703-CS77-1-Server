@@ -87,11 +87,10 @@ class ItemServiceImplTest {
 
     }
 
-    @Test
-    void getPotentialList() {
-        assertEquals(1, itemService.getPotentialList(1).size());
-
-    }
+//    @Test
+//    void getPotentialList() {
+//        assertEquals(1, itemService.getPotentialList(1).size());
+//    }
 
 
 }

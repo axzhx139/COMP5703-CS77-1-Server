@@ -2,12 +2,14 @@ package com.gday.trackmygrocery.service.Impl;
 
 import com.gday.trackmygrocery.dao.pojo.Item;
 import com.gday.trackmygrocery.dao.pojo.SpecialUser;
+import com.gday.trackmygrocery.dao.pojo.ThirdPartyLoginParm;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.mapper.ItemMapper;
 import com.gday.trackmygrocery.mapper.PotentialMapper;
 import com.gday.trackmygrocery.mapper.UserMapper;
 import com.gday.trackmygrocery.service.UserService;
 import com.gday.trackmygrocery.utils.EmailUtils;
+import com.gday.trackmygrocery.utils.EncryptUtils;
 import com.gday.trackmygrocery.utils.MailUtils;
 import com.gday.trackmygrocery.utils.PictureUtils;
 import com.gday.trackmygrocery.vo.Profile;
@@ -300,5 +302,33 @@ public class UserServiceImpl implements UserService {
         }
 
         return -2;
+    }
+
+    @Override
+    public int logInThirdParty(ThirdPartyLoginParm thirdPartyLoginParm) {
+        if (userMapper.checkEmailExist(thirdPartyLoginParm.getEmail()) == 0) {
+            if (registerThirdParty(thirdPartyLoginParm) == 1) {
+                logger.info("logInThirdParty---third party register success");
+            } else {
+                logger.error("logInThirdParty---third party register FAILED");
+                return -1; //insert failed
+            }
+        }
+        return userMapper.getUserID(thirdPartyLoginParm.getEmail());
+    }
+
+    private int registerThirdParty(ThirdPartyLoginParm thirdPartyLoginParm) {
+        User user = new User();
+        user.setAddress("N/A");
+        user.setName(thirdPartyLoginParm.getNickname());
+        user.setGender(3);
+        user.setAlert(1);
+        user.setAvatar(null);
+        user.setBirthday(null);
+        user.setPwd(EncryptUtils.EncryptString(thirdPartyLoginParm.getEmail()));
+        user.setRankingDays(-1);
+        user.setEmail(thirdPartyLoginParm.getEmail());
+        user.setUuid(null);
+        return userMapper.insertUser(user);
     }
 }

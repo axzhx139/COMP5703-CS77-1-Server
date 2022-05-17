@@ -1,6 +1,7 @@
 package com.gday.trackmygrocery.controller;
 
 import com.gday.trackmygrocery.dao.pojo.SpecialUser;
+import com.gday.trackmygrocery.dao.pojo.ThirdPartyLoginParm;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.service.UserService;
 import com.gday.trackmygrocery.utils.LogUtils;
@@ -125,6 +126,14 @@ public class UserController {
         logger.info("logIn<<<(loginParam: LoginParam): " + logUtils.printObjAsLog(loginParam));
         int res = userService.logIn(loginParam);
         logger.info("logIn>>>" + res);
+        return res;
+    }
+
+    @PostMapping("/login/thirdparty")
+    synchronized public int logInThirdparty(@RequestBody ThirdPartyLoginParm thirdPartyLoginParm) {
+        logger.info("logInThirdparty<<<(loginParam: LoginParam): " + logUtils.printObjAsLog(thirdPartyLoginParm));
+        int res = userService.logInThirdParty(thirdPartyLoginParm);
+        logger.info("logInThirdparty>>>" + res);
         return res;
     }
 

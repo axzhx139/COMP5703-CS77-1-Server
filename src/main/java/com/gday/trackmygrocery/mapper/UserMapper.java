@@ -79,7 +79,7 @@ public interface UserMapper {
      @Select("select u_id from mg_user where email= #{email}")
      int getUserID(String email);
 
-     @Update("update mg_user SET verification_code_status= 0 where email = #{email}")
+     @Update("update mg_user SET verification_code_status = 0 where email = #{email}")
      int resetVerificationCodeStatus(String email);
 
      @Update("update mg_user SET verification_code= #{verificationCode} where email = #{email}")
@@ -94,5 +94,6 @@ public interface UserMapper {
      @Delete("delete from mg_user where u_id=#{userId}")
      int deleteUserAccountByUserId(int userId);
 
-
+     @Insert("insert into mg_user(name, email, pwd, gender, uuid, alert, address, birthday, avatar, ranking_days) values(#{name},#{email},#{pwd},#{gender},#{uuid},#{alert},#{address},#{birthday},#{avatar},#{rankingDays})")
+     int insertUser(User user);
 }

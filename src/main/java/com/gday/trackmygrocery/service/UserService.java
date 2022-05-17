@@ -1,6 +1,7 @@
 package com.gday.trackmygrocery.service;
 
 import com.gday.trackmygrocery.dao.pojo.SpecialUser;
+import com.gday.trackmygrocery.dao.pojo.ThirdPartyLoginParm;
 import com.gday.trackmygrocery.dao.pojo.User;
 import com.gday.trackmygrocery.vo.Profile;
 import com.gday.trackmygrocery.vo.params.ChangeCodeParam;
@@ -48,4 +49,6 @@ public interface UserService {
     int changePasswordByVcode(ChangeCodeParam changeCodeParam);
 
     int deleteUserAccount(int userId);
+
+    int logInThirdParty(ThirdPartyLoginParm thirdPartyLoginParm);
 }

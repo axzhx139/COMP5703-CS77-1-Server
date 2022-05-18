@@ -5,6 +5,8 @@ import com.gday.trackmygrocery.dao.pojo.Potential;
 import com.gday.trackmygrocery.mapper.ItemMapper;
 import com.gday.trackmygrocery.mapper.PotentialMapper;
 import com.gday.trackmygrocery.service.PotentialService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Service
 public class PotentialServiceImpl implements PotentialService {
+
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private PotentialMapper potentialMapper;
@@ -46,7 +50,11 @@ public class PotentialServiceImpl implements PotentialService {
     @Override
     public int addItem(int itemId, int userId) {
         Item item = itemMapper.selectItemById(itemId);
-        potentialMapper.insertItemAsPotential(item);
+        if (potentialMapper.checkContains(itemId) == 0) {
+            potentialMapper.insertItemAsPotential(item);
+        } else {
+            logger.info("item already exist!");
+        }
         return 1;
     }
 

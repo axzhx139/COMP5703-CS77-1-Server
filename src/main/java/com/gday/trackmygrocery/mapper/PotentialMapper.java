@@ -35,4 +35,6 @@ public interface PotentialMapper {
     @Delete("delete from mg_potential where u_id=#{userId}")
     int deletePotentialByUserId(int userId);
 
+    @Select("select count(*) from mg_potential where item_id = #{itemId}")
+    int checkContains(int itemId);
 }

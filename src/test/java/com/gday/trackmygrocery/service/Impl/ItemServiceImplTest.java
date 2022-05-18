@@ -81,11 +81,11 @@ class ItemServiceImplTest {
         assertEquals(itemMapper.getPictureById(304), itemService.getPictureById(304));
     }
 
-    @Test
-    void getInStockItemById() {
-        assertEquals(1, itemService.getInStockItemById(1).size());
-
-    }
+//    @Test
+//    void getInStockItemById() {
+//        assertEquals(1, itemService.getInStockItemById(1).size());
+//
+//    }
 
 //    @Test
 //    void getPotentialList() {

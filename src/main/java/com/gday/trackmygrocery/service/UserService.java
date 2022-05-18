@@ -48,7 +48,7 @@ public interface UserService {
 
     int changePasswordByVcode(ChangeCodeParam changeCodeParam);
 
-    int deleteUserAccount(int userId);
+    int deleteUserAccount(User user);
 
     int logInThirdParty(ThirdPartyLoginParm thirdPartyLoginParm);
 }

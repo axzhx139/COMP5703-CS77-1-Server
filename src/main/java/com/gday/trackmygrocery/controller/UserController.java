@@ -84,8 +84,8 @@ public class UserController {
         logger.info("sendVerifyCode---\n" + "email不存在：-1\n" +
                 "    寄信失败：-2\n" +
                 "    更新资料库失败：-1\n" +
-                "    已认证：0\n" +
-                "    正确时：1");
+//                "    已认证：0\n" +
+                "    正确时：1\n");
         logger.info("sendVerifyCode>>>" + res);
         return res;
     }
@@ -200,12 +200,17 @@ public class UserController {
         return res;
     }
 
-    @PostMapping("/deleteUserAccount/{userId}")
+    @PostMapping("/deleteUserAccount")
     @ApiOperation("Delete user account")
-    synchronized public int deleteUserAccount(@PathVariable("userId")int userId){
-        logger.info("deleteUserAccount<<<(userId: int): "+userId);
-        int res= userService.deleteUserAccount(userId);
+    synchronized public int deleteUserAccount(@RequestBody User user){
+        logger.info("deleteUserAccount<<<(user: User): "+logUtils.printObjAsLog(user));
+        int res= userService.deleteUserAccount(user);
         logger.info("deleteUserAccount>>>"+res);
+        logger.info("deleteUser---\n" +
+                "    删除成功： 1\n" +
+                "    item图片删除失败： -1\n" +
+                "    头像删除失败： -2\n" +
+                "    验证码错误： -3\n");
         return res;
     }
 
@@ -226,18 +231,8 @@ public class UserController {
         }
         logger.info("updateAvatar>>>-1");
         return -1;
-
-//        String originalFilename = file.getOriginalFilename();
-//        String filename = UUID.randomUUID().toString() + "." + StringUtils.substringAfterLast(originalFilename, ".");
-//        boolean upload = qiNiuUtils.upload(file, filename);
-//        if (upload && userService.updateAvatar(QiNiuUtils.url + filename, id) == 1) {
-//            logger.info("updateAvatar>>>" + 1);
-//            return 1;
-//        }
-//        logger.info("updateAvatar>>>" + -1);
-//        return -1;
     }
-    //    @GetMapping(value = "/avatar/{id}")
+
 
     @ResponseBody
     @RequestMapping(value = "/avatar/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})

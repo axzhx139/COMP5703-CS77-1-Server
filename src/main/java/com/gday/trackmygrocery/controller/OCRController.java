@@ -40,6 +40,7 @@ public class OCRController {
         patternMap.put("DAY_MONTH_TEXT_YEAR_TWO_DIGIT_SEQ", "(.*),,(\\d|\\d{2})([A-Za-z]{3})(\\d{2}),,(.*)");
         patternMap.put("DAY_MONTH_NUM_YEAR_TWO_DIGIT", "(.*),,(\\d|\\d{2})[ -/\\\\_](\\d{2}|\\d)[ -/\\\\_](\\d{2}),,(.*)");
         patternMap.put("DAY_MONTH_NUM_YEAR_TWO_DIGIT_SEQ", "(.*),,(\\d|\\d{2})(\\d{2}|\\d)(\\d{2}),,(.*)");
+        patternMap.put("YEAR_MONTH_NUM_DAY","(.*),,(\\d{4})[ -/\\\\_](\\d|\\d{2})[ -/\\\\_](\\d|\\d{2}),,(.*)");
         //put date format;
         dateFormatSet.add("yyyy-MM-dd");
         dateFormatSet.add("yyyy-MM");
@@ -117,6 +118,10 @@ public class OCRController {
 
                     case "MONTH_NUM_YEAR": {
                         return matcher.group(3) + "-" + matcher.group(2);
+                    }
+
+                    case "YEAR_MONTH_NUM_DAY":{
+                        return matcher.group(2) + "-" + matcher.group(3)+"-"+matcher.group(4);
                     }
 
                     default: {

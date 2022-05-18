@@ -175,18 +175,18 @@ public class UserServiceImpl implements UserService {
                 return -1;
             }
         } else {
-            if (userMapper.checkEmailExistWithoutVerify(email) == 1) {
-                String code = MailUtils.generateVerificationCode();
-                int intRes = userMapper.insertCodeOnly(email, code);
-                if (intRes == 1) {
-                    MailUtils mail = MailUtils.getVerificationMail(email, code);
-                    return emailUtils.sendMailHtml(mail);
-                } else {
-                    //数据库插入失败
-                    return -1;
-                }
+//            if (userMapper.checkEmailExistWithoutVerify(email) == 1) {
+            String code = MailUtils.generateVerificationCode();
+            int intRes = userMapper.insertCodeOnly(email, code);
+            if (intRes == 1) {
+                MailUtils mail = MailUtils.getVerificationMail(email, code);
+                return emailUtils.sendMailHtml(mail);
+            } else {
+                //数据库插入失败
+                return -1;
             }
-            return 0;
+//            }
+//            return 0;
         }
     }
 
@@ -274,34 +274,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int deleteUserAccount(int userId) {
-        if (userId != 117&&userId!=115&&userId!=1&&userId!=2) {
-//            String userAvatarPath = userMapper.selectAvatarById(userId);
-//            int resDeleteUserAvatar = pictureUtils.deletePictureByPath(userAvatarPath);
-//            List<String> pathList = itemMapper.selectPictureListByUserId(userId);
-//            int[] resDeleteItemPictureArray = new int[pathList.size()];
-//            for (int i = 0; i < pathList.size(); i++) {
-//                resDeleteItemPictureArray[i] = pictureUtils.deletePictureByPath(pathList.get(i));
-//            }
-//            int resDeleteUserAccount = userMapper.deleteUserAccountByUserId(userId);
-//            int resDeletePotential = potentialMapper.deletePotentialByUserId(userId);
-//            int resDeleteItem = itemMapper.deleteItemByUserId(userId);
-//
-//            if (resDeleteUserAvatar > 0) {
-//                for (int j : resDeleteItemPictureArray) {
-//                    if (j == -1) {
-//                        return -1;
-//                    }
-//                }
-//                if (resDeleteItem > 0 || resDeletePotential > 0 || resDeleteUserAccount > 0) {
-//                    return 1;
-//                }
-//            }
-//            return -1;
-            return 1;
-        }
+    public int deleteUserAccount(User user) {
+        int userId = user.getUId();
+        if (user.getVerificationCode() != null && user.getVerificationCode().equals(userMapper.getVerificationCode(user.getEmail()))) {
+            String userAvatarPath = userMapper.selectAvatarById(userId);
+            int resDeleteUserAvatar = pictureUtils.deletePictureByPath(userAvatarPath);
+            List<String> pathList = itemMapper.selectPictureListByUserId(userId);
+            int[] resDeleteItemPictureArray = new int[pathList.size()];
+            for (int i = 0; i < pathList.size(); i++) {
+                resDeleteItemPictureArray[i] = pictureUtils.deletePictureByPath(pathList.get(i));
+            }
+            int resDeleteUserAccount = userMapper.deleteUserAccountByUserId(userId);
+            int resDeletePotential = potentialMapper.deletePotentialByUserId(userId);
+            int resDeleteItem = itemMapper.deleteItemByUserId(userId);
 
-        return -2;
+            if (resDeleteUserAvatar ==1) {
+                for (int j : resDeleteItemPictureArray) {
+                    if (j == -1) {
+                        return -1;
+                    }
+                }
+                if (resDeleteItem == 1 && resDeletePotential == 1 && resDeleteUserAccount == 1) {
+                    return 1;
+                }
+            }
+            return -2;
+        }
+        return -3;
     }
 
     @Override

@@ -279,8 +279,9 @@ public class UserServiceImpl implements UserService {
         if (userMapper.userIdExist(userId) > 0) {
             if (user.getVerificationCode() != null && user.getVerificationCode().equals(userMapper.getVerificationCode(user.getEmail()))) {
                 String userAvatarPath = userMapper.selectAvatarById(userId);
+
                 int resDeleteUserAvatar = pictureUtils.deletePictureByPath(userAvatarPath);
-                logger.info(String.valueOf(resDeleteUserAvatar));
+
                 List<String> pathList = itemMapper.selectPictureListByUserId(userId);
                 int[] resDeleteItemPictureArray = new int[pathList.size()];
                 for (int i = 0; i < pathList.size(); i++) {
@@ -289,14 +290,18 @@ public class UserServiceImpl implements UserService {
                 int resDeleteUserAccount = userMapper.deleteUserAccountByUserId(userId);
                 int resDeletePotential = potentialMapper.deletePotentialByUserId(userId);
                 int resDeleteItem = itemMapper.deleteItemByUserId(userId);
-
+//                logger.info(String.valueOf(resDeleteUserAvatar));
+//                logger.info(String.valueOf(resDeleteItem));
+//                logger.info(String.valueOf(resDeletePotential));
+//                logger.info(String.valueOf(resDeletePotential)+"\n");
                 if (resDeleteUserAvatar == 1) {
                     for (int j : resDeleteItemPictureArray) {
                         if (j == -1) {
                             return -1;
                         }
                     }
-                    if (resDeleteItem == 1 && resDeletePotential == 1 && resDeleteUserAccount == 1) {
+
+                    if (resDeleteItem >=0 && resDeletePotential >=0 && resDeleteUserAccount >=0) {
                         return 1;
                     }
                 }

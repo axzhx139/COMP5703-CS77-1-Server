@@ -210,7 +210,8 @@ public class UserController {
                 "    删除成功： 1\n" +
                 "    item图片删除失败： -1\n" +
                 "    头像删除失败： -2\n" +
-                "    验证码错误： -3\n");
+                "    验证码错误： -3\n" +
+                "    账户不存在： -4\n");
         return res;
     }
 

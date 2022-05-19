@@ -85,6 +85,9 @@ public class PictureUtils {
     }
 
     public int deletePictureByPath(String path){
+        if (path==null){
+            return 1;
+        }
         File file=new File(path);
         if (file.exists()&&!path.contains("default")){
             file.delete();

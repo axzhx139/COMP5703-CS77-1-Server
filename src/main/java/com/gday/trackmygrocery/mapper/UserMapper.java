@@ -13,6 +13,9 @@ public interface UserMapper {
 //             @Result(property = "uId", column = "u_id"),
 //     })
 
+     @Select("select count(*) from mg_user where u_id = #{id}")
+     int userIdExist(int id);
+
      @Select("select * from mg_user where u_id = #{id}")
      User selectId(int id);
 

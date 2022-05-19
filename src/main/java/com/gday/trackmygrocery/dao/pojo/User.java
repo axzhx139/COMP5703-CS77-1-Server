@@ -1,5 +1,6 @@
 package com.gday.trackmygrocery.dao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,7 +8,7 @@ import java.util.Date;
 
 @Data
 public class User implements Serializable {
-
+    @JsonProperty("uId")
     private Integer uId;
 
     private String name;

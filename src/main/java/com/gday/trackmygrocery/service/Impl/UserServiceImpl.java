@@ -276,31 +276,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteUserAccount(User user) {
         int userId = user.getUId();
-        if (user.getVerificationCode() != null && user.getVerificationCode().equals(userMapper.getVerificationCode(user.getEmail()))) {
-            String userAvatarPath = userMapper.selectAvatarById(userId);
-            int resDeleteUserAvatar = pictureUtils.deletePictureByPath(userAvatarPath);
-            List<String> pathList = itemMapper.selectPictureListByUserId(userId);
-            int[] resDeleteItemPictureArray = new int[pathList.size()];
-            for (int i = 0; i < pathList.size(); i++) {
-                resDeleteItemPictureArray[i] = pictureUtils.deletePictureByPath(pathList.get(i));
-            }
-            int resDeleteUserAccount = userMapper.deleteUserAccountByUserId(userId);
-            int resDeletePotential = potentialMapper.deletePotentialByUserId(userId);
-            int resDeleteItem = itemMapper.deleteItemByUserId(userId);
+        if (userMapper.userIdExist(userId) > 0) {
+            if (user.getVerificationCode() != null && user.getVerificationCode().equals(userMapper.getVerificationCode(user.getEmail()))) {
+                String userAvatarPath = userMapper.selectAvatarById(userId);
+                int resDeleteUserAvatar = pictureUtils.deletePictureByPath(userAvatarPath);
+                logger.info(String.valueOf(resDeleteUserAvatar));
+                List<String> pathList = itemMapper.selectPictureListByUserId(userId);
+                int[] resDeleteItemPictureArray = new int[pathList.size()];
+                for (int i = 0; i < pathList.size(); i++) {
+                    resDeleteItemPictureArray[i] = pictureUtils.deletePictureByPath(pathList.get(i));
+                }
+                int resDeleteUserAccount = userMapper.deleteUserAccountByUserId(userId);
+                int resDeletePotential = potentialMapper.deletePotentialByUserId(userId);
+                int resDeleteItem = itemMapper.deleteItemByUserId(userId);
 
-            if (resDeleteUserAvatar ==1) {
-                for (int j : resDeleteItemPictureArray) {
-                    if (j == -1) {
-                        return -1;
+                if (resDeleteUserAvatar == 1) {
+                    for (int j : resDeleteItemPictureArray) {
+                        if (j == -1) {
+                            return -1;
+                        }
+                    }
+                    if (resDeleteItem == 1 && resDeletePotential == 1 && resDeleteUserAccount == 1) {
+                        return 1;
                     }
                 }
-                if (resDeleteItem == 1 && resDeletePotential == 1 && resDeleteUserAccount == 1) {
-                    return 1;
-                }
+                return -2;
             }
-            return -2;
+            return -3;
         }
-        return -3;
+        return -4;
     }
 
     @Override

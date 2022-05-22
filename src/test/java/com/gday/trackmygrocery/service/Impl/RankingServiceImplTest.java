@@ -8,19 +8,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackmygroceryApplication.class)
 @WebAppConfiguration
 
-class NotificationServiceImplTest {
-    @Autowired
-    private NotificationServiceImpl notiService;
+class RankingServiceImplTest {
 
+    @Autowired
+    private RankingServiceImpl rankingService;
 
     @Test
-    void getNotificationByUserId() {
-        notiService.getNotificationByUserId(1);
+    void getTopTenUsers() {
+        rankingService.getTopTenUsers("sydney");
+
     }
 
 
+    @Test
+    void getPreviousOne() {
+        rankingService.getPreviousOne(1, "sydney");
+    }
 }

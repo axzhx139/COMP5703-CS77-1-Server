@@ -24,15 +24,15 @@
 //    @Test
 //    void getRecipeById() throws IOException {
 //
-////        RecipeServiceImpl recipeService = new RecipeServiceImpl();
-////        OkHttpClient mockedClient = mock(OkHttpClient.class);
-////        Request request = new Request.Builder()
-////                .url("mocked")
-////                .build();
-////
-////        List<Recipe> recipes;
-////        when(mockedClient.newCall(request).execute()).thenReturn(new ArrayList<Recipe> recipes);
-////        assertEquals(recipeService.getRecipeById(1), recipes);
+//        RecipeServiceImpl recipeService = new RecipeServiceImpl();
+//        OkHttpClient mockedClient = mock(OkHttpClient.class);
+//        Request request = new Request.Builder()
+//                .url("mocked")
+//                .build();
+//        List<Recipe> recipes = null;
+//        assert recipes != null;
+//        when(mockedClient.newCall(request).execute()).thenReturn(new ArrayList<Recipe> recipes);
+//        assertEquals(recipeService.getRecipeById(1), recipes);
 //    }
 //
 //    @Test
@@ -40,7 +40,7 @@
 //
 //    }
 //
-//    @Test
-//    void getRecipeByIdAndExpire() {
-//    }
+////    @Test
+////    void getRecipeByIdAndExpire() {
+////    }
 //}

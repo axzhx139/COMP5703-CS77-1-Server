@@ -18,23 +18,23 @@ import static org.junit.jupiter.api.Assertions.*;
 @WebAppConfiguration
 
 class PotentialServiceImplTest {
-    @Autowired
-    private PotentialServiceImpl potentialService;
-    private String pre;
-
-    @Test
-    void getPotentialList() {
-        assertEquals( potentialService.getPotentialList(1).size(), 3);
-    }
-
-    @Test
-    void deleteByPotentialId() {
-        assertEquals(0, potentialService.deleteByPotentialId(1));
-    }
-
-
-    @Test
-    void updateStatusById() {
-        assertEquals(0, potentialService.updateStatusById("potential",1));
-    }
+//    @Autowired
+//    private PotentialServiceImpl potentialService;
+//    private String pre;
+//
+//    @Test
+//    void getPotentialList() {
+//        assertEquals( potentialService.getPotentialList(1).size(), 3);
+//    }
+//
+//    @Test
+//    void deleteByPotentialId() {
+//        assertEquals(0, potentialService.deleteByPotentialId(1));
+//    }
+//
+//
+//    @Test
+//    void updateStatusById() {
+//        assertEquals(0, potentialService.updateStatusById("potential",1));
+//    }
 }

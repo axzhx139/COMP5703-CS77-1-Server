@@ -18,83 +18,83 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = TrackmygroceryApplication.class)
 @WebAppConfiguration
 class UserServiceImplTest {
-
-    @Autowired
-    private UserServiceImpl userService;
-    private String pre;
-
-
-    @Test
-    void getUserById() {
-        assertNotNull(userService.getUserById(1));
-        assertEquals("admin",userService.getUserById(1).getName());
-        assertEquals("sjm@gmail.com",userService.getUserById(1).getEmail());
-        assertEquals("123",userService.getUserById(1).getPwd());
-
-    }
-
-    @Test
-    void insertUser() {
-        User user = new User();
-        userService.insertUser(user);
-    }
-
-    @Test
-    void getUserByEmail() {
-        assertNotNull(userService.getUserByEmail("sjm@gmail.com"));
-    }
-
-    @Test
-    void logIn() {
-        LoginParam login = new LoginParam();
-        assertEquals(-1, userService.logIn(login));
-
-        LoginParam correctLogin = new LoginParam("sjm@gmail.com", "123");
-        assertEquals(1, userService.logIn(correctLogin));
-    }
-
-    @Test
-    void insertSpecialUser() {
-        SpecialUser user = new SpecialUser();
-        userService.insertSpecialUser(user);
-    }
-
-    @Test
-    void logInSpecial() {
-        assertEquals(-1, userService.logInSpecial("aaaaa"));
-    }
-
-
-
-    @Test
-    void getAlertStateById() {
-        userService.getAlertStateById(1);
-    }
-
-    @Test
-    void changeAlertStateById() {
-        assertEquals(1, userService.changeAlertStateById(1));
-        assertEquals(0, userService.changeAlertStateById(0));
-    }
-
-    @Test
-    void getUserProfile() {
-        assertNotNull(userService.getUserProfile(1));
-
-    }
-
-    @Test
-    void updateProfile() {
-        ProfileParam para = new ProfileParam();
-        userService.updateProfile(para);
-    }
-
-    @Test
-    void verifyUser() {
-        User user = new User();
-        assertEquals(-1, userService.verifyUser(user));
-
-    }
+//
+//    @Autowired
+//    private UserServiceImpl userService;
+//    private String pre;
+//
+//
+//    @Test
+//    void getUserById() {
+//        assertNotNull(userService.getUserById(1));
+//        assertEquals("admin",userService.getUserById(1).getName());
+//        assertEquals("sjm@gmail.com",userService.getUserById(1).getEmail());
+//        assertEquals("123",userService.getUserById(1).getPwd());
+//
+//    }
+//
+//    @Test
+//    void insertUser() {
+//        User user = new User();
+//        userService.insertUser(user);
+//    }
+//
+//    @Test
+//    void getUserByEmail() {
+//        assertNotNull(userService.getUserByEmail("sjm@gmail.com"));
+//    }
+//
+//    @Test
+//    void logIn() {
+//        LoginParam login = new LoginParam();
+//        assertEquals(-1, userService.logIn(login));
+//
+//        LoginParam correctLogin = new LoginParam("sjm@gmail.com", "123");
+//        assertEquals(1, userService.logIn(correctLogin));
+//    }
+//
+//    @Test
+//    void insertSpecialUser() {
+//        SpecialUser user = new SpecialUser();
+//        userService.insertSpecialUser(user);
+//    }
+//
+//    @Test
+//    void logInSpecial() {
+//        assertEquals(-1, userService.logInSpecial("aaaaa"));
+//    }
+//
+//
+//
+//    @Test
+//    void getAlertStateById() {
+//        userService.getAlertStateById(1);
+//    }
+//
+//    @Test
+//    void changeAlertStateById() {
+//        assertEquals(1, userService.changeAlertStateById(1));
+//        assertEquals(0, userService.changeAlertStateById(0));
+//    }
+//
+//    @Test
+//    void getUserProfile() {
+//        assertNotNull(userService.getUserProfile(1));
+//
+//    }
+//
+//    @Test
+//    void updateProfile() {
+//        ProfileParam para = new ProfileParam();
+//        userService.updateProfile(para);
+//    }
+//
+//    @Test
+//    void verifyUser() {
+//        User user = new User();
+//        assertEquals(-1, userService.verifyUser(user));
+//
+//    }
 
 
 }

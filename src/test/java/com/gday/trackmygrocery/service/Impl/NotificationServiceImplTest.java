@@ -13,14 +13,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 
 class NotificationServiceImplTest {
-    @Autowired
-    private NotificationServiceImpl notiService;
-
-
-    @Test
-    void getNotificationByUserId() {
-        notiService.getNotificationByUserId(1);
-    }
+//    @Autowired
+//    private NotificationServiceImpl notiService;
+//
+//
+//    @Test
+//    void getNotificationByUserId() {
+//        notiService.getNotificationByUserId(1);
+//    }
 
 
 }

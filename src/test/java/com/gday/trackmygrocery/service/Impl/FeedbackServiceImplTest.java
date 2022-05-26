@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackServiceImplTest {
 
-    @Autowired
-    private FeedbackServiceImpl feedbackService;
-
-    @Test
-    void storeFeedbackToTxt() {
-        FeedbackParam feedbackPara = new FeedbackParam();
-        feedbackService.storeFeedbackToTxt(feedbackPara);
-    }
+//    @Autowired
+//    private FeedbackServiceImpl feedbackService;
+//
+//    @Test
+//    void storeFeedbackToTxt() {
+//        FeedbackParam feedbackPara = new FeedbackParam();
+//        feedbackService.storeFeedbackToTxt(feedbackPara);
+//    }
 }

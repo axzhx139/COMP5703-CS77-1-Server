@@ -20,67 +20,69 @@ import static org.junit.jupiter.api.Assertions.*;
 @WebAppConfiguration
 class ItemServiceImplTest {
 
-    @Autowired
-    private ItemServiceImpl itemService;
-    @Autowired
-    private ItemMapper itemMapper;
-
-    private PictureUtils pictureUtils=PictureUtils.getInstance();
-
-
-    @Test
-    void getItemByUser() {
-        assertEquals(itemMapper.selectItemByUserId(117), itemService.getItemByUser(117));
-    }
-
-    @Test
-    void getItemById() {
-        assertEquals(itemMapper.selectItemById(310), itemService.getItemById(310));
-    }
-
-    @Test
-    void deleteItemById() {
-        assertEquals(0, itemService.deleteItemById(33));
-    }
-
-    @Test
-    void insertItem() {
-        Item item = new Item();
-        itemService.insertItem(item);
-    }
-
-    @Test
-    void updateItem() {
-        Item item = new Item();
-        item.setItemId(210);
-        assertEquals(-1, itemService.insertItem(item));
-    }
-
-    @Test
-    void updateStatus() {
-        assertEquals(-2, itemService.updateStatus("consumed",1));
-    }
-
-    @Test
-    void getStatusByItemId() {
-        assertEquals(null, itemService.getStatusByItemId(210));
-    }
-
-    @Test
-    void updateAllRemindDateByUserId() {
-        assertEquals(1, itemService.updateAllRemindDateByUserId(1,2));
-    }
-
-    @Test
-    void getItemByRemindDate() {
-        itemService.getItemByRemindDate(1, new Date());
-    }
-
-    @Test
-    void getPictureById() {
-        assertEquals(itemMapper.getPictureById(304), itemService.getPictureById(304));
-    }
-
+//    @Autowired
+//    private ItemServiceImpl itemService;
+//    @Autowired
+//    private ItemMapper itemMapper;
+//
+//    private PictureUtils pictureUtils=PictureUtils.getInstance();
+//
+//
+//    @Test
+//    void getItemByUser() {
+//        assertEquals(itemMapper.selectItemByUserId(117), itemService.getItemByUser(117));
+//    }
+//
+//    @Test
+//    void getItemById() {
+//        assertEquals(itemMapper.selectItemById(310), itemService.getItemById(310));
+//    }
+//
+//    @Test
+//    void deleteItemById() {
+//        assertEquals(0, itemService.deleteItemById(33));
+//    }
+//
+//    @Test
+//    void insertItem() {
+//        Item item = new Item();
+//        itemService.insertItem(item);
+//    }
+//
+//    @Test
+//    void updateItem() {
+//        Item item = new Item();
+//        item.setItemId(210);
+//        assertEquals(-1, itemService.insertItem(item));
+//    }
+//
+//    @Test
+//    void updateStatus() {
+//        assertEquals(-2, itemService.updateStatus("consumed",1));
+//    }
+//
+//    @Test
+//    void getStatusByItemId() {
+//        assertEquals(null, itemService.getStatusByItemId(210));
+//    }
+//
+//    @Test
+//    void updateAllRemindDateByUserId() {
+//        assertEquals(1, itemService.updateAllRemindDateByUserId(1,2));
+//    }
+//
+//    @Test
+//    void getItemByRemindDate() {
+//        itemService.getItemByRemindDate(1, new Date());
+//    }
+//
+//    @Test
+//    void getPictureById() {
+//        assertEquals(itemMapper.getPictureById(304), itemService.getPictureById(304));
+//    }
+/***
+ *
+ */
 //    @Test
 //    void getInStockItemById() {
 //        assertEquals(1, itemService.getInStockItemById(1).size());

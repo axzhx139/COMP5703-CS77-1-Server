@@ -15,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 @WebAppConfiguration
 
 class RankingServiceImplTest {
-
-    @Autowired
-    private RankingServiceImpl rankingService;
-
-    @Test
-    void getTopTenUsers() {
-        rankingService.getTopTenUsers("sydney");
-
-    }
-
-
-    @Test
-    void getPreviousOne() {
-        rankingService.getPreviousOne(1, "sydney");
-    }
+//
+//    @Autowired
+//    private RankingServiceImpl rankingService;
+//
+//    @Test
+//    void getTopTenUsers() {
+//        rankingService.getTopTenUsers("sydney");
+//
+//    }
+//
+//
+//    @Test
+//    void getPreviousOne() {
+//        rankingService.getPreviousOne(1, "sydney");
+//    }
 }

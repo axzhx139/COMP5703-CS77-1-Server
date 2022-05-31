@@ -23,7 +23,7 @@ public interface PotentialMapper {
 
     @Insert("insert into mg_potential(u_id,item_id,name,picture,category) " +
             "values(#{uId},#{itemId}, #{name}, #{picture},#{category})")
-    @Options(useGeneratedKeys = true, keyProperty = "pId", keyColumn = "p_id")
+//    @Options(useGeneratedKeys = true, keyProperty = "pId", keyColumn = "p_id")
     void insertItemAsPotential(Item item);
 
     @Delete("delete from mg_potential where item_id = #{itemId} and u_id = #{userId}")

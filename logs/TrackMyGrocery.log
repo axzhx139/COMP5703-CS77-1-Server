@@ -1,0 +1,126 @@
+2022-06-01 00:23:36.829 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 00:23:36.830 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 00:23:36.881 INFO  restartedMain [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:?]-Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-01 00:23:36.881 INFO  restartedMain [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor:?]-For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-01 00:23:37.803 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 00:23:37.809 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 00:23:37.809 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 00:23:37.869 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 00:23:37.869 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 988 ms
+2022-06-01 00:23:38.569 INFO  restartedMain [springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping:?]-Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-06-01 00:23:38.652 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:?]-LiveReload server is running on port 35729
+2022-06-01 00:23:38.785 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat started on port(s): 7884 (http) with context path ''
+2022-06-01 00:23:38.786 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Context refreshed
+2022-06-01 00:23:38.799 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Found 1 custom documentation plugin(s)
+2022-06-01 00:23:38.822 INFO  restartedMain [springfox.documentation.spring.web.scanners.ApiListingReferenceScanner:?]-Scanning for api listing references
+2022-06-01 00:23:39.017 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Started TrackmygroceryApplication in 2.551 seconds (JVM running for 3.558)
+2022-06-01 00:24:50.579 INFO  http-nio-7884-exec-1 [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:?]-Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-01 00:24:50.579 INFO  http-nio-7884-exec-1 [org.springframework.web.servlet.DispatcherServlet:?]-Initializing Servlet 'dispatcherServlet'
+2022-06-01 00:24:50.580 INFO  http-nio-7884-exec-1 [org.springframework.web.servlet.DispatcherServlet:?]-Completed initialization in 1 ms
+2022-06-01 00:24:50.600 WARN  http-nio-7884-exec-1 [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver:?]-Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'item_id' for method parameter type int is not present]
+2022-06-01 00:26:00.328 WARN  http-nio-7884-exec-4 [org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver:?]-Resolved [org.springframework.web.multipart.support.MissingServletRequestPartException: Required request part 'picture' is not present]
+2022-06-01 00:26:16.423 INFO  http-nio-7884-exec-6 [com.gday.trackmygrocery.controller.ItemController:?]-updatePictureById<<<(item_id: int): 1(picture: MultipartFile): org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@4812f9c2
+2022-06-01 00:26:16.433 INFO  http-nio-7884-exec-6 [com.gday.trackmygrocery.controller.ItemController:?]-updatePictureById---
+    数据插入成功：1
+    数据插入失败：-1
+
+2022-06-01 00:26:16.443 INFO  http-nio-7884-exec-6 [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-1 - Starting...
+2022-06-01 00:26:17.674 INFO  http-nio-7884-exec-6 [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-1 - Start completed.
+2022-06-01 00:26:17.858 INFO  http-nio-7884-exec-6 [com.gday.trackmygrocery.controller.ItemController:?]-updatePictureById>>>1
+2022-06-01 00:27:58.892 INFO  http-nio-7884-exec-9 [com.gday.trackmygrocery.controller.ItemController:?]-updatePictureById<<<(item_id: int): 1(picture: MultipartFile): org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@6d4aa8d
+2022-06-01 00:27:58.895 INFO  http-nio-7884-exec-9 [com.gday.trackmygrocery.controller.ItemController:?]-updatePictureById---
+    数据插入成功：1
+    数据插入失败：-1
+
+2022-06-01 00:27:59.139 INFO  http-nio-7884-exec-9 [com.gday.trackmygrocery.controller.ItemController:?]-updatePictureById>>>1
+2022-06-01 00:28:54.992 INFO  http-nio-7884-exec-10 [com.gday.trackmygrocery.controller.ItemController:?]-getPictureById<<<(id: int): 1
+2022-06-01 00:28:55.170 INFO  http-nio-7884-exec-10 [com.gday.trackmygrocery.controller.ItemController:?]-getPictureById>>>[B@74030764
+2022-06-01 00:30:00.167 INFO  scheduling-1 [com.gday.trackmygrocery.service.Impl.RankingServiceImpl:?]-setUserRanking---There is no qualified users
+2022-06-01 00:32:42.351 INFO  Thread-11 [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-1 - Shutdown initiated...
+2022-06-01 00:32:42.358 INFO  Thread-11 [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-1 - Shutdown completed.
+2022-06-01 00:32:42.506 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 00:32:42.506 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 00:32:42.849 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 00:32:42.850 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 00:32:42.850 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 00:32:42.863 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 00:32:42.863 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 354 ms
+2022-06-01 00:32:43.106 WARN  restartedMain [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:?]-Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'notificationController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.gday.trackmygrocery.controller.NotificationController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2146244a]
+2022-06-01 00:32:43.107 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Stopping service [Tomcat]
+2022-06-01 00:32:43.112 INFO  restartedMain [org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener:?]-
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-06-01 00:32:46.481 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 00:32:46.481 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 00:32:46.813 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 00:32:46.813 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 00:32:46.813 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 00:32:46.826 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 00:32:46.826 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 343 ms
+2022-06-01 00:32:47.075 INFO  restartedMain [springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping:?]-Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-06-01 00:32:47.099 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:?]-LiveReload server is running on port 35729
+2022-06-01 00:32:47.144 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat started on port(s): 7884 (http) with context path ''
+2022-06-01 00:32:47.144 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Context refreshed
+2022-06-01 00:32:47.145 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Found 1 custom documentation plugin(s)
+2022-06-01 00:32:47.148 INFO  restartedMain [springfox.documentation.spring.web.scanners.ApiListingReferenceScanner:?]-Scanning for api listing references
+2022-06-01 00:32:47.238 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Started TrackmygroceryApplication in 0.792 seconds (JVM running for 551.778)
+2022-06-01 00:32:47.239 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener:?]-Condition evaluation unchanged
+2022-06-01 00:42:21.784 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 00:42:21.784 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 00:42:22.095 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 00:42:22.095 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 00:42:22.096 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 00:42:22.107 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 00:42:22.108 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 323 ms
+2022-06-01 00:42:22.297 WARN  restartedMain [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:?]-Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'notificationController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.gday.trackmygrocery.controller.NotificationController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@53191be3]
+2022-06-01 00:42:22.298 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Stopping service [Tomcat]
+2022-06-01 00:42:22.301 INFO  restartedMain [org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener:?]-
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-06-01 00:42:24.824 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 00:42:24.824 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 00:42:25.146 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 00:42:25.146 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 00:42:25.146 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 00:42:25.158 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat-2].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 00:42:25.158 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 333 ms
+2022-06-01 00:42:25.397 INFO  restartedMain [springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping:?]-Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-06-01 00:42:25.419 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:?]-LiveReload server is running on port 35729
+2022-06-01 00:42:25.456 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat started on port(s): 7884 (http) with context path ''
+2022-06-01 00:42:25.456 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Context refreshed
+2022-06-01 00:42:25.457 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Found 1 custom documentation plugin(s)
+2022-06-01 00:42:25.459 INFO  restartedMain [springfox.documentation.spring.web.scanners.ApiListingReferenceScanner:?]-Scanning for api listing references
+2022-06-01 00:42:25.532 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Started TrackmygroceryApplication in 0.736 seconds (JVM running for 1130.072)
+2022-06-01 00:42:25.534 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener:?]-Condition evaluation unchanged
+2022-06-01 02:19:22.666 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 02:19:22.666 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 02:19:23.000 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 02:19:23.001 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 02:19:23.001 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 02:19:23.011 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat-2].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 02:19:23.011 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 342 ms
+2022-06-01 02:19:23.190 WARN  restartedMain [org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext:?]-Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'notificationController': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.gday.trackmygrocery.controller.NotificationController] from ClassLoader [org.springframework.boot.devtools.restart.classloader.RestartClassLoader@2fe6d2b3]
+2022-06-01 02:19:23.190 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Stopping service [Tomcat]
+2022-06-01 02:19:23.196 INFO  restartedMain [org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener:?]-
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-06-01 02:19:26.120 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Starting TrackmygroceryApplication using Java 1.8.0_275 on MSI with PID 27704 (D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git\target\classes started by lo2 in D:\IT\class\COMP5703 DATA5703 Capstone Project\code\git)
+2022-06-01 02:19:26.120 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-No active profile set, falling back to default profiles: default
+2022-06-01 02:19:26.361 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat initialized with port(s): 7884 (http)
+2022-06-01 02:19:26.362 INFO  restartedMain [org.apache.catalina.core.StandardService:?]-Starting service [Tomcat]
+2022-06-01 02:19:26.362 INFO  restartedMain [org.apache.catalina.core.StandardEngine:?]-Starting Servlet engine: [Apache Tomcat/9.0.50]
+2022-06-01 02:19:26.371 INFO  restartedMain [org.apache.catalina.core.ContainerBase.[Tomcat-3].[localhost].[/]:?]-Initializing Spring embedded WebApplicationContext
+2022-06-01 02:19:26.371 INFO  restartedMain [org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:?]-Root WebApplicationContext: initialization completed in 250 ms
+2022-06-01 02:19:26.687 INFO  restartedMain [springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping:?]-Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2022-06-01 02:19:26.739 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer:?]-LiveReload server is running on port 35729
+2022-06-01 02:19:26.806 INFO  restartedMain [org.springframework.boot.web.embedded.tomcat.TomcatWebServer:?]-Tomcat started on port(s): 7884 (http) with context path ''
+2022-06-01 02:19:26.806 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Context refreshed
+2022-06-01 02:19:26.807 INFO  restartedMain [springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper:?]-Found 1 custom documentation plugin(s)
+2022-06-01 02:19:26.812 INFO  restartedMain [springfox.documentation.spring.web.scanners.ApiListingReferenceScanner:?]-Scanning for api listing references
+2022-06-01 02:19:26.899 INFO  restartedMain [com.gday.trackmygrocery.TrackmygroceryApplication:?]-Started TrackmygroceryApplication in 0.802 seconds (JVM running for 6956.422)
+2022-06-01 02:19:26.901 INFO  restartedMain [org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener:?]-Condition evaluation unchanged
+2022-06-01 02:30:00.006 INFO  scheduling-1 [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-2 - Starting...
+2022-06-01 02:30:01.171 INFO  scheduling-1 [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-2 - Start completed.
+2022-06-01 02:30:01.266 INFO  scheduling-1 [com.gday.trackmygrocery.service.Impl.RankingServiceImpl:?]-setUserRanking---There is no qualified users
+2022-06-01 02:57:12.078 INFO  SpringApplicationShutdownHook [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-2 - Shutdown initiated...
+2022-06-01 02:57:12.084 INFO  SpringApplicationShutdownHook [com.zaxxer.hikari.HikariDataSource:?]-HikariPool-2 - Shutdown completed.

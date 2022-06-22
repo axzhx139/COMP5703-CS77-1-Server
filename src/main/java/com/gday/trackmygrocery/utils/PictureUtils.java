@@ -1,12 +1,19 @@
 package com.gday.trackmygrocery.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
+
+
 
 @Component
 public class PictureUtils {
+    final Logger logger = LoggerFactory.getLogger(getClass());
+    final LogUtils logUtils = LogUtils.getInstance();
     private final String PATH = "/home/ubuntu/COMP5703/mygrocery/";
     private volatile static PictureUtils pictureUtils;
 
@@ -26,20 +33,22 @@ public class PictureUtils {
 
     public String updatePictureToServer(String typeName, int id, MultipartFile multipartFile) {
         if (typeName != null && multipartFile != null) {
+            logger.info(typeName+" "+id+" "+multipartFile.getOriginalFilename());
             String path = PATH + typeName.substring(0, 1).toUpperCase() + typeName.substring(1) + "/";
+            logger.info(path);
             makeDirectory(path);
 
             String[] deleteType = {"png", "jpg", "gif"};
 
             for (String s : deleteType) {
-                File file = new File(path +typeName+"_" + id + "." + s);
+                File file = new File(path + typeName + "_" + id + "." + s);
                 if (file.exists()) {
                     file.delete();
                 }
             }
 
 
-            String fileName = path +typeName+ "_" + id + "." + StringUtils.substringAfterLast(multipartFile.getOriginalFilename(), ".");
+            String fileName = path + typeName + "_" + id + "." + StringUtils.substringAfterLast(multipartFile.getOriginalFilename(), ".");
             File pictureFile = new File(fileName);
             try {
                 pictureFile.createNewFile();
@@ -48,6 +57,7 @@ public class PictureUtils {
                 return pictureFile.getAbsolutePath();
             } catch (Exception e) {
 //                e.printStackTrace();
+                logger.info("Create new File fail.");
                 return null;
             }
         } else {
@@ -58,11 +68,16 @@ public class PictureUtils {
     private void makeDirectory(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
-            dir.mkdirs();
+
+           boolean res= dir.mkdirs();
+           if(!res){
+               logger.info("Make Directory Fail.");
+           }
+
         }
     }
 
-    public byte[] getPictureFromServer(String type,String path)  {
+    public byte[] getPictureFromServer(String type, String path) {
         FileInputStream fileInputStream;
         byte[] bytes;
         try {
@@ -71,11 +86,11 @@ public class PictureUtils {
             fileInputStream.read(bytes, 0, fileInputStream.available());
             return bytes;
         } catch (Exception e) {
-            String defaultPath=PATH+type.substring(0,1).toUpperCase()+type.substring(1)+"/"+type+"_default.png";
+            String defaultPath = PATH + type.substring(0, 1).toUpperCase() + type.substring(1) + "/" + type + "_default.png";
             try {
-                fileInputStream=new FileInputStream(new File(defaultPath));
-                bytes=new byte[fileInputStream.available()];
-                fileInputStream.read(bytes,0, fileInputStream.available());
+                fileInputStream = new FileInputStream(new File(defaultPath));
+                bytes = new byte[fileInputStream.available()];
+                fileInputStream.read(bytes, 0, fileInputStream.available());
                 return bytes;
             } catch (Exception ex) {
                 return null;
@@ -84,30 +99,30 @@ public class PictureUtils {
 
     }
 
-    public int deletePictureByPath(String path){
-        if (path==null){
+    public int deletePictureByPath(String path) {
+        if (path == null) {
             return 1;
         }
-        File file=new File(path);
-        if (file.exists()&&!path.contains("default")){
+        File file = new File(path);
+        if (file.exists() && !path.contains("default")) {
             file.delete();
             return 1;
-        }else {
+        } else {
             return -1;
         }
     }
 
-    public String getDefaultPicturePath(String type){
+    public String getDefaultPicturePath(String type) {
         String defaultPath;
-        if (type!=null) {
-            defaultPath= PATH + type.substring(0, 1).toUpperCase() + type.substring(1) + "/" + type + "_default.png";
-            File file=new File(defaultPath);
-            if(file.exists()) {
+        if (type != null) {
+            defaultPath = PATH + type.substring(0, 1).toUpperCase() + type.substring(1) + "/" + type + "_default.png";
+            File file = new File(defaultPath);
+            if (file.exists()) {
                 return defaultPath;
-            }else{
+            } else {
                 return null;
             }
-        }else {
+        } else {
             return null;
         }
     }
